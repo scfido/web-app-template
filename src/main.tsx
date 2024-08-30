@@ -6,9 +6,8 @@ import {
 } from "react-router-dom";
 
 import App from './App.tsx'
-import ButtonSample from '@/pages/samples/button';
 import './index.css'
-import DocsLayout from './layouts/docs/DocLayout.tsx';
+import {router as docsRouter} from '@/pages/docs';
 
 const router = createBrowserRouter([
   {
@@ -16,19 +15,8 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "/samples",
-    element: <DocsLayout />,
-    children: [
-      {
-        index: true,
-        element: <ButtonSample />,
-      },
-      {
-        path: "button",
-        index: true,
-        element: <ButtonSample />,
-      },
-    ],
+    path: "/docs/*",
+    children: docsRouter
   },
 ]);
 
