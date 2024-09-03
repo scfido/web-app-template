@@ -18,7 +18,13 @@ export function Sidebar({ className }: ISidebarProps) {
           <div className="space-y-1">
             <Link to="components/button" className="flex px-4 py-2 gap-1 w-full items-center hover:bg-accent hover:text-accent-foreground ">
               <SquarePower size={16} />
-              按钮
+              Button
+            </Link>
+          </div>
+          <div className="space-y-1">
+            <Link to="components/select" className="flex px-4 py-2 gap-1 w-full items-center hover:bg-accent hover:text-accent-foreground ">
+              <SquarePower size={16} />
+              Select
             </Link>
           </div>
           <div className="space-y-1">

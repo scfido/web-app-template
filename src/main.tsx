@@ -4,6 +4,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { AppearanceProvider } from "@/components/themes/AppearanceContext"
 
 import App from './App.tsx'
 import './index.css'
@@ -22,6 +23,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AppearanceProvider defaultAppearance="light" storageKey="vite-ui-theme">
+      <RouterProvider router={router} />
+    </AppearanceProvider>
   </StrictMode>,
 )
