@@ -8,7 +8,7 @@ import { AppearanceProvider } from "@/components/themes/AppearanceContext"
 
 import App from './App.tsx'
 import './index.css'
-import {router as docsRouter} from '@/pages/docs';
+import {router as docsRouter} from "../docs";
 
 const router = createBrowserRouter([
   {

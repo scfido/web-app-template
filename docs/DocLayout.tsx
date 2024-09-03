@@ -6,7 +6,7 @@ import ThemeWrapper from "@/components/themes/ThemeWrapper"
 import ThemeCustomizer from "@/components/themes/ThemeCustomizer";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
-const SampleLayout = () => {
+const Layout = () => {
     return (
         <ThemeWrapper>
             <TooltipProvider>
@@ -35,4 +35,4 @@ const SampleLayout = () => {
 }
 
 
-export default SampleLayout
+export default Layout

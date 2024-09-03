@@ -1,23 +1,23 @@
 import {
     RouteObject,
 } from "react-router-dom";
-import DocLayout from "./DocLayout";
+import Layout from "./DocLayout";
 
 const router: RouteObject[] = [
     {
-        element: <DocLayout />,
+        element: <Layout />,
         children: [
             {
                 index: true,
-                lazy: () => import("@/pages/docs/components"),
+                lazy: () => import("./components"),
             },
             {
                 path: "components/*",
-                lazy: () => import("@/pages/docs/components"),
+                lazy: () => import("./components"),
             },
             {
                 path: "authentications/*",
-                lazy: () => import("@/pages/docs/authentications"),
+                lazy: () => import("./authentications"),
             },
         ]
     }
