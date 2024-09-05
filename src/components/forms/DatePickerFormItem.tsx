@@ -29,7 +29,6 @@ const DatePickerFormItem = ({
     const isRequired = !formSchema.shape[name]?.isOptional() // 判断字段是否必填
     const maxDate = formSchema.shape[name]?.maxDate ?? new Date()
     const minDate = formSchema.shape[name]?.minDate ?? new Date("1900-01-01")
-    console.log(formSchema.shape[name])
 
     return (
         <FormField

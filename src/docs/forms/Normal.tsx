@@ -12,6 +12,26 @@ import {
 } from "@/components/forms"
 import { ICheckBoxGroupItem } from "@/components/forms/CheckBoxGroupFormItem"
 import DatePickerFormItem from "@/components/forms/DatePickerFormItem"
+import RadioGroupFormItem, { IRadioGroupItem } from "@/components/forms/RadioGroupFormItem"
+import SelectFormItem from "@/components/forms/SelectFormItem"
+import SwitchFormItem from "@/components/forms/SwitchFormItem"
+
+const sexs: IRadioGroupItem[] = [
+    {
+        value: "male",
+        label: "男",
+    },
+    {
+        value: "female",
+        label: "女",
+        disabled: true
+    },
+    {
+        value: "none",
+        label: "保密",
+        description: "不公开性别"
+    },
+]
 
 const items: ICheckBoxGroupItem[] = [
     {
@@ -43,15 +63,27 @@ const items: ICheckBoxGroupItem[] = [
     },
 ] as const
 
+
+const fruits = [
+    { value: "apple", label: "苹果" },
+    { value: "banana", label: "香蕉" },
+    { value: "blueberry", label: "蓝莓", disabled: true },
+    { value: "grapes", label: "葡萄" },
+    { value: "pineapple", label: "菠萝" },
+]
+
 const formSchema = z.object({
     username: z.string().min(2).max(10),
     password: z.string().min(2).max(10),
     email: z.string().email().optional(),
-        birth: z.date({required_error:"请选择您的出生日期"})
-        .min(new Date("2024-01-01"),{message:"出生日期不能早于2024-01-01"})
-        .max(new Date("2024-12-31"),{message:"出生日期不能晚于2024-12-31"})
+    birth: z.date({ required_error: "请选择您的出生日期" })
+        .min(new Date("2024-01-01"), { message: "出生日期不能早于2024-01-01" })
+        .max(new Date("2024-12-31"), { message: "出生日期不能晚于2024-12-31" })
         .optional(),
+    sex: z.enum(["male", "female", "none"]),
+    fruit: z.string(),
     remember: z.boolean().optional(),
+    remember1: z.boolean().optional(),
     menus: z.array(z.string())
         .refine((value) => value?.length > 0, {
             message: "请至少选择一个菜单",
@@ -92,6 +124,9 @@ export function ProfileForm() {
                 <InputFormItem type="email" name="email" label="邮箱" description="我们不会公开您的邮箱地址" help="帮助信息" />
                 <DatePickerFormItem name="birth" label="生日" />
                 <CheckBoxFormItem name="remember" label="记住我" description="7天内免登录" help="帮助信息" />
+                <SwitchFormItem name="remember1" label="记住我" description="7天内免登录" />
+                <RadioGroupFormItem name="sex" label="性别" items={sexs} inline />
+                <SelectFormItem name="fruit" label="爱好" options={fruits} description="选择您喜欢的食物" />
                 <CheckBoxGroupFormItem name="menus" label="菜单" description="请勾选启用的菜单" items={items} help="帮助信息" />
                 <CheckBoxGroupFormItem name="menus2" label="菜单" description="横向" inline items={items.slice(0, 3)} help="帮助信息" />
                 <Button type="submit">Submit</Button>

@@ -56,9 +56,9 @@ const CheckBoxGroupFormItem = ({
     <FormField
       control={control}
       name={name}
-      render={() => (
+      render={({ field }) => (
         <FormItem {...props}>
-          <div className={cn("space-y-1",className)}>
+          <div className={cn("space-y-1", className)}>
             <FormLabel className={cn("flex gap-1", { "after:content-['*'] after:text-red-400": isRequired })}>
               {label ?? name}
               <Help>{help}</Help>
@@ -69,35 +69,27 @@ const CheckBoxGroupFormItem = ({
           </div>
           <div className={cn("flex flex-col gap-1 ml-4", { "flex-row gap-3": inline })}>
             {items.map((item) => (
-              <FormField
+              <FormItem
                 key={item.key ?? item.value}
-                control={control}
-                name={name}
-                render={({ field }) => {
-                  return (
-                    <FormItem
-                      className={cn("flex flex-row items-start space-x-3 space-y-0", { "space-x-1": inline })}
-                    >
-                      <FormControl>
-                        <Checkbox
-                          onBlur={field.onBlur}
-                          checked={field.value?.includes(item.value)}
-                          onCheckedChange={(checked) => handleCheckedChange(checked, item, field)}
-                          disabled={disabled || item.disabled}
-                        />
-                      </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <FormLabel className={cn("font-normal", { "text-muted-foreground": disabled || item.disabled })}>
-                          {item.label}
-                        </FormLabel>
-                        <FormDescription className="text-xs">
-                          {item.description}
-                        </FormDescription>
-                      </div>
-                    </FormItem>
-                  )
-                }}
-              />
+                className={cn("flex flex-row space-x-3 space-y-0", { "space-x-1": inline })}
+              >
+                <FormControl>
+                  <Checkbox
+                    onBlur={field.onBlur}
+                    checked={field.value?.includes(item.value)}
+                    onCheckedChange={(checked) => handleCheckedChange(checked, item, field)}
+                    disabled={disabled || item.disabled}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel className={cn("font-normal", { "text-muted-foreground": disabled || item.disabled })}>
+                    {item.label}
+                  </FormLabel>
+                  <FormDescription className="text-xs">
+                    {item.description}
+                  </FormDescription>
+                </div>
+              </FormItem>
             ))}
           </div>
           <FormMessage />

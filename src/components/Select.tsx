@@ -42,18 +42,58 @@ export interface ISelectOption {
 export type SelectOptionType = ISelectSeparator | ISelectOption | ISelectOptionGroup
 
 
-function isSelectOption(option: SelectOptionType): option is ISelectOption {
+export function isSelectOption(option: SelectOptionType): option is ISelectOption {
     return (option as ISelectOption).value !== undefined;
 }
 
-function isSelectOptionGroup(option: SelectOptionType): option is ISelectOptionGroup {
+export function isSelectOptionGroup(option: SelectOptionType): option is ISelectOptionGroup {
     return (option as ISelectOptionGroup).label !== undefined &&
         (option as ISelectOptionGroup).options !== undefined
 }
 
-function isSelectSeparator(option: SelectOptionType): option is ISelectSeparator {
+export function isSelectSeparator(option: SelectOptionType): option is ISelectSeparator {
     return option.label === '---'
 }
+
+export function renderSelectOption(options: SelectOptionType[]) {
+    return options?.map((option) => {
+        if (isSelectOption(option)) {
+            return (
+                <SelectItem
+                    className={cn(option.disabled && "text-gray-500")}
+                    key={option.key ?? option.value}
+                    value={option.value}
+                    disabled={option.disabled}
+                >
+                    {option.label ?? option.value}
+                </SelectItem>
+            )
+        }
+        else if (isSelectOptionGroup(option)) {
+            return (
+                <SelectGroup key={option.key}>
+                    <SelectLabel className="text-sm font-medium text-gray-500 pl-4">{option.label}</SelectLabel>
+                    {option.options?.map((option) => {
+                        return (
+                            <SelectItem
+                                className={cn(option.disabled && "text-gray-500")}
+                                key={option.key ?? option.value}
+                                value={option.value}
+                                disabled={option.disabled}
+                            >
+                                {option.label ?? option.value}
+                            </SelectItem>
+                        )
+                    })}
+                </SelectGroup>
+            )
+        }
+        else if (isSelectSeparator(option)) {
+            return <SelectSeparator key={option.key} />
+        }
+    })
+}
+
 
 export interface ISelectProps extends SelectProps {
     options?: SelectOptionType[]
@@ -76,42 +116,7 @@ const Component = ({
                 <SelectValue className="font-bold " placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>
-                {options?.map((option) => {
-                    if (isSelectOption(option)) {
-                        return (
-                            <SelectItem
-                                className={cn(option.disabled && "text-gray-500")}
-                                key={option.key ?? option.value}
-                                value={option.value}
-                                disabled={option.disabled}
-                            >
-                                {option.label ?? option.value}
-                            </SelectItem>
-                        )
-                    }
-                    else if (isSelectOptionGroup(option)) {
-                        return (
-                            <SelectGroup key={option.key}>
-                                <SelectLabel className="text-sm font-medium text-gray-500 pl-4">{option.label}</SelectLabel>
-                                {option.options?.map((option) => {
-                                    return (
-                                        <SelectItem
-                                            className={cn(option.disabled && "text-gray-500")}
-                                            key={option.key ?? option.value}
-                                            value={option.value}
-                                            disabled={option.disabled}
-                                        >
-                                            {option.label ?? option.value}
-                                        </SelectItem>
-                                    )
-                                })}
-                            </SelectGroup>
-                        )
-                    }
-                    else if (isSelectSeparator(option)) {
-                        return <SelectSeparator key={option.key} />
-                    }
-                })}
+                {options && renderSelectOption(options)}
             </SelectContent>
         </Select>
     )
