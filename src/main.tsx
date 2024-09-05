@@ -6,14 +6,14 @@ import {
 } from "react-router-dom";
 import { AppearanceProvider } from "@/components/themes/AppearanceContext"
 
-import App from './App.tsx'
+import Home from '@/pages/home/Home'
 import './index.css'
-import {router as docsRouter} from "../docs";
+import {router as docsRouter} from "@/docs";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Home />,
   },
   {
     path: "/docs/*",
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <AppearanceProvider defaultAppearance="light" storageKey="vite-ui-theme">
+    <AppearanceProvider defaultAppearance="light">
       <RouterProvider router={router} />
     </AppearanceProvider>
   </StrictMode>,

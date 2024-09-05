@@ -1,7 +1,7 @@
 import {
     RouteObject,
 } from "react-router-dom";
-import Layout from "./DocLayout";
+import Layout from "./Layout";
 
 const router: RouteObject[] = [
     {
@@ -14,6 +14,10 @@ const router: RouteObject[] = [
             {
                 path: "components/*",
                 lazy: () => import("./components"),
+            },
+            {
+                path: "forms/*",
+                lazy: () => import("./forms"),
             },
             {
                 path: "authentications/*",

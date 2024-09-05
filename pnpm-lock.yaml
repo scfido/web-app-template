@@ -116,9 +116,15 @@ importers:
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
       embla-carousel-react:
         specifier: ^8.2.0
         version: 8.2.0(react@18.3.1)
+      i18next:
+        specifier: ^23.14.0
+        version: 23.14.0
       input-otp:
         specifier: ^1.2.4
         version: 1.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -164,6 +170,9 @@ importers:
       zod:
         specifier: ^3.23.8
         version: 3.23.8
+      zod-i18n-map:
+        specifier: ^2.27.0
+        version: 2.27.0(i18next@23.14.0)(zod@3.23.8)
       zustand:
         specifier: ^4.5.5
         version: 4.5.5(@types/react@18.3.4)(react@18.3.1)
@@ -2243,6 +2252,9 @@ packages:
   hast-util-whitespace@3.0.0:
     resolution: {integrity: sha512-88JUN06ipLwsnv+dVn+OIYOvAuvBMy/Qoi6O7mQHxdPXpjy+Cd6xRkWwux7DKO+4sYILtLBRIKgsdpS2gQc7qw==}
 
+  i18next@23.14.0:
+    resolution: {integrity: sha512-Y5GL4OdA8IU2geRrt2+Uc1iIhsjICdHZzT9tNwQ3TVqdNzgxHToGCKf/TPRP80vTCAP6svg2WbbJL+Gx5MFQVA==}
+
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
@@ -3366,6 +3378,12 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  zod-i18n-map@2.27.0:
+    resolution: {integrity: sha512-ORu9XpiVh3WDiEUs5Cr9siGgnpeODoBsTIgSD8sQCH9B//f9KowlzqHUEdPYb3vFonaSH8yPvPCOFM4niwp3Sg==}
+    peerDependencies:
+      i18next: '>=21.3.0'
+      zod: '>=3.17.0'
 
   zod@3.23.8:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
@@ -5620,6 +5638,10 @@ snapshots:
     dependencies:
       '@types/hast': 3.0.4
 
+  i18next@23.14.0:
+    dependencies:
+      '@babel/runtime': 7.25.4
+
   ignore@5.3.2: {}
 
   import-fresh@3.3.0:
@@ -7022,6 +7044,11 @@ snapshots:
   yaml@2.5.0: {}
 
   yocto-queue@0.1.0: {}
+
+  zod-i18n-map@2.27.0(i18next@23.14.0)(zod@3.23.8):
+    dependencies:
+      i18next: 23.14.0
+      zod: 3.23.8
 
   zod@3.23.8: {}
 

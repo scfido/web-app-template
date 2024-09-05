@@ -1,4 +1,4 @@
-import { ComponentPreview } from "../"
+import { ComponentPreview } from ".."
 import { useTitle } from "ahooks"
 
 import { Button } from "@/components/ui/button";
@@ -6,7 +6,7 @@ import { Camera } from "lucide-react";
 
 {useTitle("按钮示例")}
 
-<h1 className="p-4 dark:text-white">按钮</h1>
+<h1 className="">按钮</h1>
 
 export const Demo1 = () => {
     return (<ComponentPreview title="按钮颜色">
@@ -48,3 +48,17 @@ export const Demo3 = () => {
 <Demo1/>
 <Demo2/>
 <Demo3/>
+
+## 使用按钮样式
+
+使用按钮定义的样式，可以将按钮的样式应用到其他元素上。
+
+```tsx
+import { buttonVariants } from "@/components/ui/button"
+
+<div 
+    className={buttonVariants({ variant: "outline" , size: "lg" })}
+>
+    测试
+</div>
+```

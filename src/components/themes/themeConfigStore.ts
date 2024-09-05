@@ -1,6 +1,7 @@
 "use client";
 
-import { create } from "zustand";
+import { create, StateCreator } from "zustand";
+import { persist } from 'zustand/middleware';
 import { Theme, CssVars, themes } from "./themes";
 
 interface IThemeConfig {
@@ -12,7 +13,7 @@ interface IThemeConfig {
   setConfig: (config: Partial<IThemeConfig>) => void;
 };
 
-const useThemeConfigStore = create<IThemeConfig>((set) => ({
+const store :StateCreator<IThemeConfig> =  (set) => ({
   theme: "zinc",
   cssVars: {
     light: (themes.find((theme) => theme.name === "zinc")
@@ -23,6 +24,12 @@ const useThemeConfigStore = create<IThemeConfig>((set) => ({
       .dark as unknown as Partial<CssVars["dark"]>) || {},
   },
   setConfig: (config: Partial<IThemeConfig>) => set(state => ({ ...state, ...config })),
-}));
+})
+
+const presistStore = persist(store, {
+  name: 'system-ui-theme', // 存储的名称，必须是唯一的
+})
+
+const useThemeConfigStore = create<IThemeConfig>(presistStore);
 
 export { useThemeConfigStore }

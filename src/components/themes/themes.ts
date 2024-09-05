@@ -8,8 +8,8 @@ export const themes = [
     },
     cssVars: {
       light: {
-        background: "0 0% 100%",
-        foreground: "240 10% 3.9%",
+        background: "210 50% 98%",
+        foreground: "213 56% 16%",
         card: "0 0% 100%",
         "card-foreground": "240 10% 3.9%",
         popover: "0 0% 100%;",

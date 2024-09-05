@@ -50,10 +50,10 @@ const Dashboard = () =>{
             Customers
           </Link>
           <Link
-            to="#"
+            to="/docs"
             className="text-foreground transition-colors hover:text-foreground"
           >
-            Settings
+            文档
           </Link>
         </nav>
         <Sheet>
@@ -100,8 +100,8 @@ const Dashboard = () =>{
               >
                 Customers
               </Link>
-              <Link to="#" className="hover:text-foreground">
-                Settings
+              <Link to="/docs" className="hover:text-foreground">
+                文档
               </Link>
             </nav>
           </SheetContent>
