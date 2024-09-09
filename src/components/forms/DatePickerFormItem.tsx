@@ -69,7 +69,6 @@ const DatePickerFormItem = ({
                                 disabled={(date) =>
                                     date > maxDate || date < minDate
                                 }
-                                initialFocus
                             />
                         </PopoverContent>
                     </Popover>

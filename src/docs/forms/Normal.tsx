@@ -8,13 +8,20 @@ import {
     ZodForm,
     InputFormItem,
     CheckBoxFormItem,
-    CheckBoxGroupFormItem
+    CheckBoxGroupFormItem,
+    DatePickerFormItem,
+    RadioGroupFormItem,
+    SelectFormItem,
+    SwitchFormItem,
+    TextareaFormItem,
+    ComboboxFormItem,
+    SliderFormItem,
+    RadioListFormItem,
+    CheckboxListFormItem
 } from "@/components/forms"
 import { ICheckBoxGroupItem } from "@/components/forms/CheckBoxGroupFormItem"
-import DatePickerFormItem from "@/components/forms/DatePickerFormItem"
-import RadioGroupFormItem, { IRadioGroupItem } from "@/components/forms/RadioGroupFormItem"
-import SelectFormItem from "@/components/forms/SelectFormItem"
-import SwitchFormItem from "@/components/forms/SwitchFormItem"
+import { IRadioGroupItem } from "@/components/forms/RadioGroupFormItem"
+import { BadgeJapaneseYen, CreditCard, HandCoins } from "lucide-react"
 
 const sexs: IRadioGroupItem[] = [
     {
@@ -61,7 +68,7 @@ const items: ICheckBoxGroupItem[] = [
         value: "documents",
         label: "Documents",
     },
-] as const
+]
 
 
 const fruits = [
@@ -72,10 +79,22 @@ const fruits = [
     { value: "pineapple", label: "菠萝" },
 ]
 
+const languages = [
+    { value: "zh", label: "中文" },
+    { value: "en", label: "英语" },
+    { value: "ja", label: "日语" },
+]
+
+const roles = [
+    { value: "admin", label: <div className="flex items-center gap-1"><CreditCard /> Administrator</div> },
+    { value: "manager", label: <div className="flex items-center gap-1"><BadgeJapaneseYen />Manager</div> },
+    { value: "guest", label: <div className="flex items-center gap-1"><HandCoins />Guest</div>, disabled: true }
+]
+
 const formSchema = z.object({
     username: z.string().min(2).max(10),
     password: z.string().min(2).max(10),
-    email: z.string().email().optional(),
+    email: z.union([z.string().email().optional(), z.literal("")]),
     birth: z.date({ required_error: "请选择您的出生日期" })
         .min(new Date("2024-01-01"), { message: "出生日期不能早于2024-01-01" })
         .max(new Date("2024-12-31"), { message: "出生日期不能晚于2024-12-31" })
@@ -84,6 +103,13 @@ const formSchema = z.object({
     fruit: z.string(),
     remember: z.boolean().optional(),
     remember1: z.boolean().optional(),
+    language: z.string(),
+    age: z.number().min(18).max(60),
+    role: z.string(),
+    roles: z.array(z.string())
+        .refine((value) => value?.length > 0, {
+            message: "请至少选择一个角色",
+        }),
     menus: z.array(z.string())
         .refine((value) => value?.length > 0, {
             message: "请至少选择一个菜单",
@@ -92,6 +118,7 @@ const formSchema = z.object({
         .refine((value) => value?.length > 1, {
             message: "请至少选择两个菜单",
         }),
+    description: z.string().min(2).max(100).optional(),
 })
 
 
@@ -106,6 +133,7 @@ export function ProfileForm() {
             password: "",
             email: "",
             remember: true,
+            age: 20,
         },
     })
 
@@ -126,9 +154,14 @@ export function ProfileForm() {
                 <CheckBoxFormItem name="remember" label="记住我" description="7天内免登录" help="帮助信息" />
                 <SwitchFormItem name="remember1" label="记住我" description="7天内免登录" />
                 <RadioGroupFormItem name="sex" label="性别" items={sexs} inline />
+                <RadioListFormItem name="role" label="角色" items={roles} />
+                <CheckboxListFormItem name="roles" label="角色" items={roles} />
                 <SelectFormItem name="fruit" label="爱好" options={fruits} description="选择您喜欢的食物" />
+                <ComboboxFormItem name="language" label="语言" options={languages} description="选择您喜欢的语言" />
+                <SliderFormItem name="age" label="年龄" min={10} max={60} />
                 <CheckBoxGroupFormItem name="menus" label="菜单" description="请勾选启用的菜单" items={items} help="帮助信息" />
                 <CheckBoxGroupFormItem name="menus2" label="菜单" description="横向" inline items={items.slice(0, 3)} help="帮助信息" />
+                <TextareaFormItem name="description" label="描述" placeholder="请输入自我介绍" description="请输入您的描述" help="帮助信息" />
                 <Button type="submit">Submit</Button>
             </form>
         </ZodForm>

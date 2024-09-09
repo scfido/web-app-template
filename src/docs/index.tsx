@@ -2,6 +2,8 @@ import {
     RouteObject,
 } from "react-router-dom";
 import Layout from "./Layout";
+import ComponentPreview from "./ComponentPreview";
+import Test from "./Test";
 
 const router: RouteObject[] = [
     {
@@ -23,10 +25,13 @@ const router: RouteObject[] = [
                 path: "authentications/*",
                 lazy: () => import("./authentications"),
             },
+            {
+                path: "test",
+                element: <Test />,
+            }
         ]
     }
 ];
 
-import ComponentPreview from "./ComponentPreview";
 
 export { router, ComponentPreview }

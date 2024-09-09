@@ -22,6 +22,11 @@ const menuItems = [
         icon: <SquarePower size={16} />
       },
       {
+        title: "Combobox",
+        path: "components/combobox",
+        icon: <SquarePower size={16} />
+      },
+      {
         title: "组件测试",
         path: "components/test",
         icon: <SquarePower size={16} />

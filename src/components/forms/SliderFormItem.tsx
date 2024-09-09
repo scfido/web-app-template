@@ -1,24 +1,29 @@
 import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form"
-import { Input as ShadcnInput } from "@/components/ui/input"
+import { Slider } from "@/components/ui/slider"
 import { cn } from "@/lib/utils"
 import { useFormContext } from "react-hook-form"
 import { useZodFormContext } from "@/components/forms/ZodForm"
 import { IFormItemProps } from "./types"
 import Help from "./_Help"
 
-export interface IInputProps extends IFormItemProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, "name"> {
-    type?: "text" | "password" | "email" | "number" | "tel" | "url" | "search" | "date" | "time" | "datetime-local" | "month" | "week" | "color" | "hidden"
+export interface ISliderFormItemProps extends Omit<IFormItemProps, "placeholder"> {
+    defaultValue?: number
+    min?: number
+    max?: number
+    step?: number
 }
 
-const InputFormItem = ({
+const SliderFormItem = ({
     name,
     label,
     className,
-    placeholder,
     description,
     help,
-    ...props
-}: IInputProps) => {
+    defaultValue = 50,
+    min = 0,
+    max = 100,
+    step = 1,
+}: ISliderFormItemProps) => {
     const { control } = useFormContext()
     const { formSchema } = useZodFormContext()
     const isRequired = !formSchema.shape[name]?.isOptional() // 判断字段是否必填
@@ -34,7 +39,20 @@ const InputFormItem = ({
                         <Help>{help}</Help>
                     </FormLabel>
                     <FormControl>
-                        <ShadcnInput placeholder={placeholder} {...props} {...field}/>
+                        <div className="flex items-center gap-1">
+                            <Slider
+                                className="flex-1"
+                                defaultValue={[defaultValue]}
+                                max={max}
+                                min={min}
+                                step={step}
+                                value={[field.value]}
+                                onValueChange={(value) => field.onChange(value[0])}
+                            />
+                            <span
+                                className="min-w-10 text-right text-sm text-muted-foreground"
+                            >{field.value ?? defaultValue}</span>
+                        </div>
                     </FormControl>
                     <FormDescription>
                         {description}
@@ -46,4 +64,4 @@ const InputFormItem = ({
     )
 }
 
-export default InputFormItem
+export default SliderFormItem

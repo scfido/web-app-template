@@ -1,6 +1,15 @@
 import { SelectProps } from "@radix-ui/react-select";
 import { Key } from "react";
-import { Select, SelectItem, SelectSeparator, SelectLabel, SelectGroup, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
+import {
+    Select,
+    SelectItem,
+    SelectSeparator,
+    SelectLabel,
+    SelectGroup,
+    SelectContent,
+    SelectTrigger,
+    SelectValue
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 

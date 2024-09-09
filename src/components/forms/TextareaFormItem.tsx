@@ -1,16 +1,15 @@
 import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form"
-import { Input as ShadcnInput } from "@/components/ui/input"
+import { Textarea as ShadcnTextarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 import { useFormContext } from "react-hook-form"
 import { useZodFormContext } from "@/components/forms/ZodForm"
 import { IFormItemProps } from "./types"
 import Help from "./_Help"
 
-export interface IInputProps extends IFormItemProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, "name"> {
-    type?: "text" | "password" | "email" | "number" | "tel" | "url" | "search" | "date" | "time" | "datetime-local" | "month" | "week" | "color" | "hidden"
+export interface ITextareaProps extends IFormItemProps, Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "name"> {
 }
 
-const InputFormItem = ({
+const TextareaFormItem = ({
     name,
     label,
     className,
@@ -18,7 +17,7 @@ const InputFormItem = ({
     description,
     help,
     ...props
-}: IInputProps) => {
+}: ITextareaProps) => {
     const { control } = useFormContext()
     const { formSchema } = useZodFormContext()
     const isRequired = !formSchema.shape[name]?.isOptional() // 判断字段是否必填
@@ -34,7 +33,7 @@ const InputFormItem = ({
                         <Help>{help}</Help>
                     </FormLabel>
                     <FormControl>
-                        <ShadcnInput placeholder={placeholder} {...props} {...field}/>
+                        <ShadcnTextarea placeholder={placeholder} {...props} {...field} />
                     </FormControl>
                     <FormDescription>
                         {description}
@@ -46,4 +45,4 @@ const InputFormItem = ({
     )
 }
 
-export default InputFormItem
+export default TextareaFormItem

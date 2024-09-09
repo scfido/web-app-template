@@ -36,22 +36,6 @@ const RadioGroupFormItem = ({
     const { formSchema } = useZodFormContext()
     const isRequired = !formSchema.shape[name]?.isOptional() // 判断字段是否必填
 
-    const handleCheckedChange = (checked: CheckboxPrimitive.CheckedState, item: IRadioGroupItem, field: ControllerRenderProps<FieldValues, string>) => {
-        if (checked) {
-            if (!field.value) {
-                field.onChange([item.value])
-            } else {
-                field.onChange([...field.value, item.value])
-            }
-        } else {
-            field.onChange(
-                field.value?.filter(
-                    (value: string) => value !== item.value
-                )
-            )
-        }
-    }
-
     return (
         <FormField
             control={control}
