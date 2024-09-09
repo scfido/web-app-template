@@ -21,16 +21,17 @@ const router: RouteObject[] = [
                 path: "forms/*",
                 lazy: () => import("./forms"),
             },
-            {
-                path: "authentications/*",
-                lazy: () => import("./authentications"),
-            },
+           
             {
                 path: "test",
                 element: <Test />,
             }
         ]
-    }
+    },
+    {
+        path: "authentications/*",
+        lazy: () => import("./authentications"),
+    },
 ];
 
 

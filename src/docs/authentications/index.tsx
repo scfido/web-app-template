@@ -2,11 +2,15 @@ import {
     Route,
     Routes,
 } from "react-router-dom";
+import Layout from "./layout";
+import { LoginForm } from "./signin";
 
 export const Component = () => (
     <Routes>
-        <Route index element={<h1>认证页面</h1>} />
-        <Route path="login" element={<h1>登录</h1>} />
-        <Route path="signup" element={<h1>注册</h1>} />
+        <Route element={<Layout />}>
+            <Route index element={<h1>认证页面</h1>} />
+            <Route path="login" element={<LoginForm />} />
+            <Route path="signup" element={<h1>注册</h1>} />
+        </Route>
     </Routes>
 );
