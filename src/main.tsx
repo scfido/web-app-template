@@ -9,6 +9,7 @@ import { AppearanceProvider } from "@/components/themes/AppearanceContext"
 import Home from '@/pages/home/Home'
 import './index.css'
 import {router as docsRouter} from "@/docs";
+import {router as accountRouter} from "@/pages/accounts";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/docs/*",
     children: docsRouter
+  },
+  {
+    path: "/accounts/*",
+    children: accountRouter
   },
 ]);
 

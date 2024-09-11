@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label"
 export const description =
   "A simple login form with email and password. The submit button says 'Sign in'."
 
-export function LoginForm() {
+const Signin = () => {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -38,3 +38,5 @@ export function LoginForm() {
     </Card>
   )
 }
+
+export default Signin;

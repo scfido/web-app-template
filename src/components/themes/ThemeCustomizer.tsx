@@ -6,7 +6,7 @@ import {
 
 import { Button } from "@/components/ui/button"
 import { CheckIcon, Paintbrush } from "lucide-react"
-import ThemeWrapper from "./ThemeWrapper"
+import ThemeProvider from "./ThemeProvider"
 import { cn } from "@/lib/utils"
 import React from "react"
 import CustomizerHeader from "./customizer/CustomizerHeader"
@@ -26,7 +26,7 @@ import { CopyCodeButton } from "./customizer/CopyCodeButton"
 
 const Customizer = ({ className }: { className?: string }) => {
   return (
-    <ThemeWrapper
+    <ThemeProvider
       defaultTheme="zinc"
       className={cn(
         "fixed inset-y-0 right-0 flex flex-col md:min-h-[95vh]  p-4 space-y-4 overflow-y-scroll border-2 rounded-md shadow-sm scroll-y-auto backdrop-blur-sm bg-white/80 dark:bg-black/80 md:space-y-6",
@@ -41,7 +41,7 @@ const Customizer = ({ className }: { className?: string }) => {
         <ColorPickerSection />
         <CopyCodeButton />
       </div>
-    </ThemeWrapper>
+    </ThemeProvider>
   );
 }
 

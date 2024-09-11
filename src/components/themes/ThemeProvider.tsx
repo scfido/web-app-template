@@ -4,15 +4,15 @@ import { cn } from "@/lib/utils";
 import { useThemeConfigStore } from "./themeConfigStore";
 import { useAppearance } from "./AppearanceContext";
 
-export interface IThemeWrapperProps extends React.HtmlHTMLAttributes<HTMLDivElement>{
+export interface IThemeProviderProps extends React.HtmlHTMLAttributes<HTMLDivElement>{
   defaultTheme?: string;
 }
 
-function ThemeWrapper({
+function ThemeProvider({
   defaultTheme,
   children,
   className,
-}: IThemeWrapperProps) {
+}: IThemeProviderProps) {
   const { appearance } = useAppearance();
   const config = useThemeConfigStore();
 
@@ -32,7 +32,7 @@ function ThemeWrapper({
 
   const style = {
     ...prefixedCssVars,
-    "--radius": `${defaultTheme ? "0.5" : config.cssVars.light.radius}rem`,
+    "--radius": `${defaultTheme ? "0.5" : config.cssVars.light.radius ?? "0.5"}rem`,
   } as React.CSSProperties;
 
   return (
@@ -50,4 +50,4 @@ function ThemeWrapper({
   );
 }
 
-export default ThemeWrapper
+export default ThemeProvider

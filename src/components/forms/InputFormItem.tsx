@@ -34,7 +34,7 @@ const InputFormItem = ({
                         <Help>{help}</Help>
                     </FormLabel>
                     <FormControl>
-                        <ShadcnInput placeholder={placeholder} {...props} {...field}/>
+                        <ShadcnInput placeholder={placeholder} {...props} {...field} className="bg-input/50 dark:bg-input"/>
                     </FormControl>
                     <FormDescription>
                         {description}

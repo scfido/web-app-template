@@ -4,7 +4,7 @@ import { CheckIcon, CopyIcon } from "lucide-react";
 import React from "react";
 import template from "lodash.template";
 import { Theme } from "../themes";
-import ThemeWrapper from "../ThemeWrapper";
+import ThemeProvider from "../ThemeProvider";
 import { useThemeConfigStore } from "../themeConfigStore";
 import "./styles/mdx.css"
 
@@ -60,7 +60,7 @@ export function CopyCodeButton() {
                             复制以下代码到<code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">src/index.css</code>中，替换相应内容。
                         </DialogDescription>
                     </DialogHeader>
-                    <ThemeWrapper defaultTheme="zinc" className="relative">
+                    <ThemeProvider defaultTheme="zinc" className="relative">
                         <CustomizerCode />
                         {activeTheme && (
                             <Button
@@ -84,7 +84,7 @@ export function CopyCodeButton() {
                                 Copy
                             </Button>
                         )}
-                    </ThemeWrapper>
+                    </ThemeProvider>
                 </DialogContent>
             </Dialog>
         </>
@@ -96,7 +96,7 @@ function CustomizerCode() {
     const activeTheme = useThemeConfigStore();
 
     return (
-        <ThemeWrapper defaultTheme="zinc" className="relative space-y-4">
+        <ThemeProvider defaultTheme="zinc" className="relative space-y-4">
             <div data-rehype-pretty-code-fragment="">
                 <pre className="max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900">
                     <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
@@ -214,7 +214,7 @@ function CustomizerCode() {
                     </code>
                 </pre>
             </div>
-        </ThemeWrapper>
+        </ThemeProvider>
     );
 }
 

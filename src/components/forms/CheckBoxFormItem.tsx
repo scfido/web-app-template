@@ -21,7 +21,7 @@ const CheckBoxFormItem = ({
     const { control } = useFormContext()
     const { formSchema } = useZodFormContext()
     const isRequired = !formSchema.shape[name]?.isOptional() // 判断字段是否必填
-
+  
     return (
         <FormField
             control={control}
