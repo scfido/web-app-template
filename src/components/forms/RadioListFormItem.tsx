@@ -78,7 +78,7 @@ const RadioGroupFormItem = ({
                                             />
                                         </FormControl>
                                     </div>
-                                    <FormLabel className={cn("flex flex-1 items-center cursor-pointer",
+                                    <FormLabel className={cn("flex flex-1 items-center text-foreground cursor-pointer font-normal",
                                         { "cursor-not-allowed text-muted-foreground": disabled || item.disabled }
                                     )}>
                                         {item.label}

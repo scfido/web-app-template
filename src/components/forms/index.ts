@@ -11,6 +11,8 @@ import ComboboxFormItem from "./ComboboxFormItem"
 import SliderFormItem from "./SliderFormItem"
 import RadioListFormItem from "./RadioListFormItem"
 import CheckboxListFormItem from "./CheckboxListFormItem"
+import SegmentedFormItem from "./SegmentedFormItem"
+import AddonInputFormItem from "./AddonInputFormItem"
 
 export {
     ZodForm,
@@ -25,5 +27,7 @@ export {
     ComboboxFormItem,
     SliderFormItem,
     RadioListFormItem,
-    CheckboxListFormItem
+    CheckboxListFormItem,
+    SegmentedFormItem,
+    AddonInputFormItem
 }

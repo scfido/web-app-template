@@ -17,7 +17,9 @@ import {
     ComboboxFormItem,
     SliderFormItem,
     RadioListFormItem,
-    CheckboxListFormItem
+    CheckboxListFormItem,
+    SegmentedFormItem,
+    AddonInputFormItem
 } from "@/components/forms"
 import { ICheckBoxGroupItem } from "@/components/forms/CheckBoxGroupFormItem"
 import { IRadioGroupItem } from "@/components/forms/RadioGroupFormItem"
@@ -95,6 +97,7 @@ const formSchema = z.object({
     username: z.string().min(2).max(10),
     password: z.string().min(2).max(10),
     email: z.union([z.string().email().optional(), z.literal("")]),
+    homepage: z.string().url().optional(),
     birth: z.date({ required_error: "请选择您的出生日期" })
         .min(new Date("2024-01-01"), { message: "出生日期不能早于2024-01-01" })
         .max(new Date("2024-12-31"), { message: "出生日期不能晚于2024-12-31" })
@@ -110,6 +113,7 @@ const formSchema = z.object({
         .refine((value) => value?.length > 0, {
             message: "请至少选择一个角色",
         }),
+    role2: z.string(),
     menus: z.array(z.string())
         .refine((value) => value?.length > 0, {
             message: "请至少选择一个菜单",
@@ -150,12 +154,14 @@ export function ProfileForm() {
                 <InputFormItem name="username" label="用户名" />
                 <InputFormItem type="password" name="password" label="密码" help="帮助信息" />
                 <InputFormItem type="email" name="email" label="邮箱" description="我们不会公开您的邮箱地址" help="帮助信息" />
+                <AddonInputFormItem type="url" name="homepage" label="主页" placeholder="请输入您的个人主页" addonBefore="https://" addonAfter=".com" />
                 <DatePickerFormItem name="birth" label="生日" />
                 <CheckBoxFormItem name="remember" label="记住我" description="7天内免登录" help="帮助信息" />
                 <SwitchFormItem name="remember1" label="记住我" description="7天内免登录" />
                 <RadioGroupFormItem name="sex" label="性别" items={sexs} inline />
                 <RadioListFormItem name="role" label="角色" items={roles} />
                 <CheckboxListFormItem name="roles" label="角色" items={roles} />
+                <SegmentedFormItem name="role2" label="角色" options={roles} />
                 <SelectFormItem name="fruit" label="爱好" options={fruits} description="选择您喜欢的食物" />
                 <ComboboxFormItem name="language" label="语言" options={languages} description="选择您喜欢的语言" />
                 <SliderFormItem name="age" label="年龄" min={10} max={60} />
