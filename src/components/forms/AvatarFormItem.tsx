@@ -141,8 +141,10 @@ const AvatarFormItem = ({
                                     onDragEnter={handleDragIn}
                                 >
                                     <div className={cn("flex items-center justify-center w-16 h-16 ")}>
-                                        <Upload className="w-8 h-8 text-muted-foreground" />
-                                        {(image ?? defaultValue) && <img src={image ?? defaultValue} />}
+
+                                        {(image ?? defaultValue) ? <img className="p-0.5 w-16 h-16 rounded-md" src={image ?? defaultValue} />
+                                            : <Upload className="w-8 h-8 text-muted-foreground" />
+                                        }
                                     </div>
                                     <p className={cn("flex flex-col gap-1 text-foreground font-normal", { "invisible": dragging })}>
                                         <span className="text-sm ">{placeholder}</span>
