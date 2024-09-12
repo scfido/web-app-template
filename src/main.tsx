@@ -10,6 +10,7 @@ import Home from '@/pages/home/Home'
 import './index.css'
 import {router as docsRouter} from "@/docs";
 import {router as accountRouter} from "@/pages/accounts";
+import {router as testRouter} from "@/pages/test";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/accounts/*",
     children: accountRouter
+  },
+  {
+    path: "/test/*",
+    children: testRouter
   },
 ]);
 

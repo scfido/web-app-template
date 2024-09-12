@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils"
 import { Link } from "react-router-dom"
-import { KeySquare, LogIn, SquarePower, TextCursorInput } from "lucide-react"
+import { KeySquare, LogIn, SquarePower, TextCursorInput, ContactRound } from "lucide-react"
 
 
 interface ISidebarProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -40,6 +40,16 @@ const menuItems = [
         title: "常规",
         path: "forms/normal",
         icon: <TextCursorInput size={16} />
+      },
+      {
+        title: "动态验证",
+        path: "forms/dynamic-validation",
+        icon: <TextCursorInput size={16} />
+      },
+      {
+        title: "头像",
+        path:"forms/avatar",
+        icon: <ContactRound size={16}/>
       }
     ]
   },

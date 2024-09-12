@@ -21,7 +21,7 @@ import {
     SegmentedFormItem,
     AddonInputFormItem
 } from "@/components/forms"
-import { ICheckBoxGroupItem } from "@/components/forms/CheckBoxGroupFormItem"
+import { ICheckBoxGroupOption } from "@/components/forms/CheckBoxGroupFormItem"
 import { IRadioGroupItem } from "@/components/forms/RadioGroupFormItem"
 import { BadgeJapaneseYen, CreditCard, HandCoins } from "lucide-react"
 
@@ -42,7 +42,7 @@ const sexs: IRadioGroupItem[] = [
     },
 ]
 
-const items: ICheckBoxGroupItem[] = [
+const items: ICheckBoxGroupOption[] = [
     {
         value: "recents",
         label: "Recents",
@@ -158,15 +158,15 @@ export function ProfileForm() {
                 <DatePickerFormItem name="birth" label="生日" />
                 <CheckBoxFormItem name="remember" label="记住我" description="7天内免登录" help="帮助信息" />
                 <SwitchFormItem name="remember1" label="记住我" description="7天内免登录" />
-                <RadioGroupFormItem name="sex" label="性别" items={sexs} inline />
-                <RadioListFormItem name="role" label="角色" items={roles} />
-                <CheckboxListFormItem name="roles" label="角色" items={roles} />
+                <RadioGroupFormItem name="sex" label="性别" options={sexs} inline />
+                <RadioListFormItem name="role" label="角色" options={roles} />
+                <CheckboxListFormItem name="roles" label="角色" options={roles} />
                 <SegmentedFormItem name="role2" label="角色" options={roles} />
                 <SelectFormItem name="fruit" label="爱好" options={fruits} description="选择您喜欢的食物" />
                 <ComboboxFormItem name="language" label="语言" options={languages} description="选择您喜欢的语言" />
                 <SliderFormItem name="age" label="年龄" min={10} max={60} />
-                <CheckBoxGroupFormItem name="menus" label="菜单" description="请勾选启用的菜单" items={items} help="帮助信息" />
-                <CheckBoxGroupFormItem name="menus2" label="菜单" description="横向" inline items={items.slice(0, 3)} help="帮助信息" />
+                <CheckBoxGroupFormItem name="menus" label="菜单" description="请勾选启用的菜单" options={items} help="帮助信息" />
+                <CheckBoxGroupFormItem name="menus2" label="菜单" description="横向" inline options={items.slice(0, 3)} help="帮助信息" />
                 <TextareaFormItem name="description" label="描述" placeholder="请输入自我介绍" description="请输入您的描述" help="帮助信息" />
                 <Button type="submit">Submit</Button>
             </form>

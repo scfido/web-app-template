@@ -13,6 +13,7 @@ import RadioListFormItem from "./RadioListFormItem"
 import CheckboxListFormItem from "./CheckboxListFormItem"
 import SegmentedFormItem from "./SegmentedFormItem"
 import AddonInputFormItem from "./AddonInputFormItem"
+import AvatarFormItem from "./AvatarFormItem"
 
 export {
     ZodForm,
@@ -29,5 +30,6 @@ export {
     RadioListFormItem,
     CheckboxListFormItem,
     SegmentedFormItem,
-    AddonInputFormItem
+    AddonInputFormItem,
+    AvatarFormItem
 }

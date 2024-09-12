@@ -33,7 +33,7 @@ const TextareaFormItem = ({
                         <Help>{help}</Help>
                     </FormLabel>
                     <FormControl>
-                        <ShadcnTextarea placeholder={placeholder} {...props} {...field} />
+                        <ShadcnTextarea placeholder={placeholder} {...props} {...field} className="bg-input-background" />
                     </FormControl>
                     <FormDescription>
                         {description}

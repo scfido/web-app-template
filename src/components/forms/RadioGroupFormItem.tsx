@@ -1,8 +1,7 @@
 import { cn } from "@/lib/utils"
 import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form"
-import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { ControllerRenderProps, FieldValues, useFormContext } from "react-hook-form"
+import { useFormContext } from "react-hook-form"
 import { useZodFormContext } from "@/components/forms/ZodForm"
 import { Key } from "react"
 import { IFormItemProps } from "./types"
@@ -17,14 +16,14 @@ export interface IRadioGroupItem {
 }
 
 export interface IRadioGroupFormItemProps extends IFormItemProps, React.HTMLAttributes<HTMLDivElement> {
-    items: IRadioGroupItem[]
+    options: IRadioGroupItem[]
     inline?: boolean
 }
 
 const RadioGroupFormItem = ({
     name,
     label,
-    items,
+    options,
     className,
     description,
     disabled,
@@ -58,23 +57,23 @@ const RadioGroupFormItem = ({
                             className={cn("flex flex-col space-y-1", { "flex-row gap-3": inline })}
                         >
                             <div className={cn("flex flex-col gap-1 ml-4", { "flex-row gap-3": inline })}>
-                                {items.map((item) => (
+                                {options.map((option) => (
                                     <FormItem
-                                        key={item.key ?? item.value}
+                                        key={option.key ?? option.value}
                                         className={cn("flex flex-row space-x-3 space-y-0", { "space-x-1": inline })}
                                     >
                                         <FormControl>
                                             <RadioGroupItem
-                                                value={item.value}
-                                                disabled={disabled || item.disabled}
+                                                value={option.value}
+                                                disabled={disabled || option.disabled}
                                             />
                                         </FormControl>
                                         <div className="space-y-1 leading-none">
-                                            <FormLabel className={cn("font-normal", { "text-muted-foreground": disabled || item.disabled })}>
-                                                {item.label}
+                                            <FormLabel className={cn("font-normal", { "text-muted-foreground": disabled || option.disabled })}>
+                                                {option.label}
                                             </FormLabel>
                                             <FormDescription className="text-xs">
-                                                {item.description}
+                                                {option.description}
                                             </FormDescription>
                                         </div>
                                     </FormItem>

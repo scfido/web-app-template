@@ -16,14 +16,13 @@ export interface IRadioListItem {
 }
 
 export interface IRadioListFormItemProps extends IFormItemProps {
-    items: IRadioListItem[]
+    options: IRadioListItem[]
 }
 
 const RadioGroupFormItem = ({
     name,
     label,
-    items,
-    className,
+    options,
     description,
     disabled,
     help,
@@ -32,17 +31,17 @@ const RadioGroupFormItem = ({
     const { formSchema } = useZodFormContext()
     const isRequired = !formSchema.shape[name]?.isOptional() // 判断字段是否必填
 
-    const handleCheckedChange = (checked: CheckboxPrimitive.CheckedState, item: IRadioListItem, field: ControllerRenderProps<FieldValues, string>) => {
+    const handleCheckedChange = (checked: CheckboxPrimitive.CheckedState, option: IRadioListItem, field: ControllerRenderProps<FieldValues, string>) => {
         if (checked) {
             if (!field.value) {
-                field.onChange([item.value])
+                field.onChange([option.value])
             } else {
-                field.onChange([...field.value, item.value])
+                field.onChange([...field.value, option.value])
             }
         } else {
             field.onChange(
                 field.value?.filter(
-                    (value: string) => value !== item.value
+                    (value: string) => value !== option.value
                 )
             )
         }
@@ -64,24 +63,24 @@ const RadioGroupFormItem = ({
                             defaultValue={field.value}
                             className={cn("flex flex-col gap-1")}
                         >
-                            {items.map((item) => (
+                            {options.map((option) => (
                                 <FormItem
-                                    key={item.value}
+                                    key={option.value}
                                     className={cn("flex border rounded min-h-12 space-y-0",
-                                        field.value === item.value ? "bg-primary/10 border-primary" : "bg-background"
+                                        field.value === option.value ? "bg-primary/10 border-primary" : "bg-background"
                                     )}>
                                     <div className="flex items-center justify-center w-12">
                                         <FormControl>
                                             <RadioGroupItem
-                                                value={item.value}
-                                                disabled={disabled || item.disabled}
+                                                value={option.value}
+                                                disabled={disabled || option.disabled}
                                             />
                                         </FormControl>
                                     </div>
                                     <FormLabel className={cn("flex flex-1 items-center text-foreground cursor-pointer font-normal",
-                                        { "cursor-not-allowed text-muted-foreground": disabled || item.disabled }
+                                        { "cursor-not-allowed text-muted-foreground": disabled || option.disabled }
                                     )}>
-                                        {item.label}
+                                        {option.label}
                                     </FormLabel>
                                 </FormItem>
                             ))}
