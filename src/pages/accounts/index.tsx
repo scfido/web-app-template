@@ -1,18 +1,16 @@
 import {
     RouteObject,
 } from "react-router-dom";
-import Layout from "./Layout";
+import Layout from "@/layouts/Information";
 import Signin from "./Signin";
 import Signup from "./Signup";
+import NotFound from "../NotFound";
 
 const router: RouteObject[] = [
     {
         element: <Layout />,
         children: [
-            {
-                index: true,
-                element: <h1>认证页面</h1>,
-            },
+          
             {
                 path: "signin",
                 element: <Signin />,
@@ -20,6 +18,10 @@ const router: RouteObject[] = [
             {
                 path: "signup",
                 element: <Signup />,
+            },
+            {
+                path: "*",
+                element: <NotFound />,
             },
         ]
     }
