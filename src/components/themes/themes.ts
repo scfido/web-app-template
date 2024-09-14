@@ -49,6 +49,7 @@ export const themes = [
         border: "240 3.7% 15.9%",
         input: "240 3.7% 15.9%",
         ring: "240 4.9% 83.9%",
+        radius: "0.5rem",
       },
     },
   },
@@ -102,6 +103,7 @@ export const themes = [
         border: "217.2 32.6% 17.5%",
         input: "217.2 32.6% 17.5%",
         ring: "212.7 26.8% 83.9",
+        radius: "0.5rem",
       },
     },
   },
@@ -133,7 +135,7 @@ export const themes = [
         border: "20 5.9% 90%",
         input: "20 5.9% 90%",
         ring: "20 14.3% 4.1%",
-        radius: "0.95rem",
+        radius: "1.0rem",
       },
       dark: {
         background: "20 14.3% 4.1%",
@@ -155,6 +157,7 @@ export const themes = [
         border: "12 6.5% 15.1%",
         input: "12 6.5% 15.1%",
         ring: "24 5.7% 82.9%",
+        radius: "1.0rem",
       },
     },
   },
@@ -186,7 +189,7 @@ export const themes = [
         border: "220 13% 91%",
         input: "220 13% 91%",
         ring: "224 71.4% 4.1%",
-        radius: "0.35rem",
+        radius: "0.25rem",
       },
       dark: {
         background: "224 71.4% 4.1%",
@@ -208,6 +211,7 @@ export const themes = [
         border: "215 27.9% 16.9%",
         input: "215 27.9% 16.9%",
         ring: "216 12.2% 83.9%",
+        radius: "0.25rem",
       },
     },
   },
@@ -239,6 +243,7 @@ export const themes = [
         border: "0 0% 89.8%",
         input: "0 0% 89.8%",
         ring: "0 0% 3.9%",
+        radius: "0.25rem",
       },
       dark: {
         background: "0 0% 3.9%",
@@ -260,6 +265,7 @@ export const themes = [
         border: "0 0% 14.9%",
         input: "0 0% 14.9%",
         ring: "0 0% 83.1%",
+        radius: "0.25rem",
       },
     },
   },
@@ -291,7 +297,7 @@ export const themes = [
         border: "0 0% 89.8%",
         input: "0 0% 89.8%",
         ring: "0 72.2% 50.6%",
-        radius: "0.4rem",
+        radius: "0.25rem",
       },
       dark: {
         background: "0 0% 3.9%",
@@ -313,6 +319,7 @@ export const themes = [
         border: "0 0% 14.9%",
         input: "0 0% 14.9%",
         ring: "0 72.2% 50.6%",
+        radius: "0.25rem",
       },
     },
   },
@@ -366,6 +373,7 @@ export const themes = [
         border: "240 3.7% 15.9%",
         input: "240 3.7% 15.9%",
         ring: "346.8 77.2% 49.8%",
+        radius: "0.5rem",
       },
     },
   },
@@ -397,7 +405,7 @@ export const themes = [
         border: "20 5.9% 90%",
         input: "20 5.9% 90%",
         ring: "24.6 95% 53.1%",
-        radius: "0.95rem",
+        radius: "1.0rem",
       },
       dark: {
         background: "20 14.3% 4.1%",
@@ -419,6 +427,7 @@ export const themes = [
         border: "12 6.5% 15.1%",
         input: "12 6.5% 15.1%",
         ring: "20.5 90.2% 48.2%",
+        radius: "1.0rem",
       },
     },
   },
@@ -450,6 +459,7 @@ export const themes = [
         border: "240 5.9% 90%",
         input: "240 5.9% 90%",
         ring: "142.1 76.2% 36.3%",
+        radius: "0.75rem",
       },
       dark: {
         background: "20 14.3% 4.1%",
@@ -471,6 +481,7 @@ export const themes = [
         border: "240 3.7% 15.9%",
         input: "240 3.7% 15.9%",
         ring: "142.4 71.8% 29.2%",
+        radius: "0.75rem",
       },
     },
   },
@@ -502,6 +513,7 @@ export const themes = [
         border: "214.3 31.8% 91.4%",
         input: "214.3 31.8% 91.4%",
         ring: "221.2 83.2% 53.3%",
+        radius: "0.75rem",
       },
       dark: {
         background: "222.2 84% 4.9%",
@@ -523,6 +535,7 @@ export const themes = [
         border: "217.2 32.6% 17.5%",
         input: "217.2 32.6% 17.5%",
         ring: "224.3 76.3% 48%",
+        radius: "0.75rem",
       },
     },
   },
@@ -655,7 +668,7 @@ export type CssVars = {
     border: string;
     input: string;
     ring: string;
-    radius: number;
+    radius: string;
   };
   dark: {
     background: string;
@@ -677,6 +690,6 @@ export type CssVars = {
     border: string;
     input: string;
     ring: string;
-    radius: number;
+    radius: string;
   };
 };

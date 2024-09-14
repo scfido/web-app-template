@@ -1,28 +1,30 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useThemeConfigStore } from "./themeConfigStore";
+import { useThemeConfigStore, useThemeConfigStore1, useThemeConfigStore2 } from "./themeConfigStore";
 import { useAppearance } from "./AppearanceContext";
+import { Theme } from "./themes";
+import { Slot } from '@radix-ui/react-slot';
 
-export interface IThemeProviderProps extends React.HtmlHTMLAttributes<HTMLDivElement>{
-  defaultTheme?: string;
+export interface IThemeProviderProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
+  className?: string;
 }
 
-function ThemeProvider({
-  defaultTheme,
+const ThemeProvider = ({
   children,
   className,
-}: IThemeProviderProps) {
+}: IThemeProviderProps) => {
   const { appearance } = useAppearance();
   const config = useThemeConfigStore();
 
   const currentAppearance = appearance === "dark" ? "dark" : "light";
 
+  // 将配置文件中的css变量转换为style属性
   const prefixedCssVars = Object.keys(config.cssVars[currentAppearance]).reduce(
     (acc, key) => {
       const value =
         config.cssVars[currentAppearance as keyof typeof config.cssVars][
-          key as keyof (typeof config.cssVars)["light"]
+        key as keyof (typeof config.cssVars)["light"]
         ];
       acc[`--${key}`] = value !== undefined ? `${value}` : "";
       return acc;
@@ -32,15 +34,13 @@ function ThemeProvider({
 
   const style = {
     ...prefixedCssVars,
-    "--radius": `${defaultTheme ? "0.5" : config.cssVars.light.radius ?? "0.5"}rem`,
   } as React.CSSProperties;
 
   return (
-    <div
+    <div 
       className={cn(
         "bg-background text-foreground",
-        `theme-${defaultTheme || config.theme}`,
-        "w-full",
+        `theme-${config.theme}`,
         className
       )}
       style={style}

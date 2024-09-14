@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -22,7 +23,12 @@ module.exports = {
           background: "hsl(var(--input-background))",
         },
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
+        background: {
+          DEFAULT: "hsl(var(--background))",
+          1: 'hsl(var(--background-1))',
+          2: 'hsl(var(--background-2))',
+          3: 'hsl(var(--background-3))',
+        },
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
@@ -78,4 +84,9 @@ module.exports = {
     require("tailwindcss-animate"),
     require('@tailwindcss/typography'),
   ],
+  safelist: [
+    {
+      pattern: /bg-\w+-\w+/,
+    }
+  ]
 }

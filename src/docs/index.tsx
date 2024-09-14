@@ -14,6 +14,10 @@ const router: RouteObject[] = [
                 lazy: () => import("./components"),
             },
             {
+                path: "documents/*",
+                lazy: () => import("./documents"),
+            },
+            {
                 path: "components/*",
                 lazy: () => import("./components"),
             },

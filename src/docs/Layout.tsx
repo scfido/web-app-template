@@ -11,8 +11,8 @@ const Layout = () => {
     return (
         <ThemeProvider>
             <TooltipProvider>
-                <div className="flex flex-col h-screen">
-                    <header className="flex gap-1 items-center bg-gray-100 dark:bg-gray-800 dark:text-white py-4 px-6">
+                <div className="flex flex-col min-h-screen">
+                    <header className="flex gap-1 items-center bg-background dark:bg-gray-800 dark:text-white py-4 px-6">
                         <h1 className="flex-1 text-2xl font-bold">组件使用示例</h1>
                         <ThemeCustomizer />
                         <AppearanceToggle />

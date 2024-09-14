@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils"
 import { Link } from "react-router-dom"
-import { KeySquare, LogIn, SquarePower, TextCursorInput, ContactRound } from "lucide-react"
+import { KeySquare, LogIn, SquarePower, TextCursorInput, ContactRound, Palette, FlaskConical } from "lucide-react"
 
 
 interface ISidebarProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -9,8 +9,19 @@ interface ISidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const menuItems = [
   {
+    title: "文档",
+    items: [
+      {
+        title: "颜色清单",
+        path: "documents/colors",
+        icon: <Palette size={16} />
+      }
+    ]
+  },
+  {
     title: "组件",
     items: [
+     
       {
         title: "Button",
         path: "components/button",
@@ -29,7 +40,7 @@ const menuItems = [
       {
         title: "组件测试",
         path: "components/test",
-        icon: <SquarePower size={16} />
+        icon: <FlaskConical size={16} />
       }
     ]
   },
