@@ -86,7 +86,8 @@ module.exports = {
   ],
   safelist: [
     {
-      pattern: /bg-\w+-\w+/,
+      // 生成所有背景颜色，确保颜色列表文档能列出所有。
+      pattern: /bg-\w+[-\w+]/,
     }
   ]
 }
