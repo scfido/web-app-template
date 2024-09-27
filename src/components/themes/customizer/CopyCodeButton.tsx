@@ -1,20 +1,18 @@
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { CheckIcon, CopyIcon } from "lucide-react";
-import React from "react";
+import React, { Fragment } from "react";
 import template from "lodash.template";
-import { Theme } from "../themes";
-import ThemeProvider from "../ThemeProvider";
-import { useThemeConfigStore } from "../themeConfigStore";
-import "./styles/mdx.css"
+import { ITheme } from "../themes";
+import ThemeProvider, { useTheme } from "../ThemeProvider";
 
 export async function copyToClipboardWithMeta(value: string) {
     navigator.clipboard.writeText(value);
 }
 
 export function CopyCodeButton() {
-    const cssVars = useThemeConfigStore(state => state.cssVars)
-    const activeTheme = useThemeConfigStore();
+    const { themeCssVars: customCssVars, themeName } = useTheme()
     const [hasCopied, setHasCopied] = React.useState(false);
 
     React.useEffect(() => {
@@ -25,13 +23,13 @@ export function CopyCodeButton() {
 
     return (
         <>
-            {activeTheme && (
+            {themeName && (
                 <Button
                     onClick={() => {
                         copyToClipboardWithMeta(
                             getThemeCode(
-                                activeTheme as any,
-                                cssVars.light?.radius || 0.5
+                                themeName as any,
+                                customCssVars?.light?.radius
                             )
                         );
                         setHasCopied(true);
@@ -57,19 +55,32 @@ export function CopyCodeButton() {
                     <DialogHeader>
                         <DialogTitle>主题CSS变量</DialogTitle>
                         <DialogDescription>
-                            复制以下代码到<code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">src/index.css</code>中，替换相应内容。
+                            将您的配色方案生成为代码。
                         </DialogDescription>
                     </DialogHeader>
+                    <Tabs defaultValue="css" className="w-full">
+                        <TabsList>
+                            <TabsTrigger value="css">CSS</TabsTrigger>
+                            <TabsTrigger value="json">JSON</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="css" className="text-sm text-muted-foreground">
+                            复制以下代码到<code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">src/index.css</code>中，作为默认主题。
+                        </TabsContent>
+                        <TabsContent value="json" className="text-sm text-muted-foreground">
+                            复制以下代码到<code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">src/components/themes/themes.ts</code>中，切换主题时使用。
+                        </TabsContent>
+                    </Tabs>
+
                     <ThemeProvider defaultTheme="zinc" className="relative">
                         <CustomizerCode />
-                        {activeTheme && (
+                        {themeName && (
                             <Button
                                 size="sm"
                                 onClick={() => {
                                     copyToClipboardWithMeta(
                                         getThemeCode(
-                                            activeTheme as any,
-                                            cssVars.light?.radius || 0.5
+                                            themeName as any,
+                                            customCssVars?.light?.radius
                                         )
                                     );
                                     setHasCopied(true);
@@ -92,8 +103,7 @@ export function CopyCodeButton() {
 }
 
 function CustomizerCode() {
-    const cssVars = useThemeConfigStore(state => state.cssVars)
-    const activeTheme = useThemeConfigStore();
+    const { themeCssVars: customCssVars } = useTheme()
 
     return (
         <ThemeProvider defaultTheme="zinc" className="relative space-y-4">
@@ -104,11 +114,11 @@ function CustomizerCode() {
                         <span className="text-white line">&nbsp;&nbsp;:root &#123;</span>
                         <span className="text-white line">
                             &nbsp;&nbsp;&nbsp;&nbsp;--background:{" "}
-                            {activeTheme?.cssVars.light["background"]};
+                            {customCssVars?.light["background"]};
                         </span>
                         <span className="text-white line">
                             &nbsp;&nbsp;&nbsp;&nbsp;--foreground:{" "}
-                            {activeTheme?.cssVars.light["foreground"]};
+                            {customCssVars?.light["foreground"]};
                         </span>
                         {[
                             "card",
@@ -119,12 +129,12 @@ function CustomizerCode() {
                             "accent",
                             "destructive",
                         ].map((prefix) => (
-                            <>
+                            <Fragment key={prefix}>
                                 <span className="text-white line">
                                     &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}:{" "}
                                     {
-                                        activeTheme?.cssVars.light[
-                                        prefix as keyof typeof activeTheme.cssVars.light
+                                        customCssVars?.light[
+                                        prefix as keyof typeof customCssVars.light
                                         ]
                                     }
                                     ;
@@ -132,40 +142,39 @@ function CustomizerCode() {
                                 <span className="text-white line">
                                     &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}-foreground:{" "}
                                     {
-                                        activeTheme?.cssVars.light[
-                                        `${prefix}-foreground` as keyof typeof activeTheme.cssVars.light
+                                        customCssVars?.light[
+                                        `${prefix}-foreground` as keyof typeof customCssVars.light
                                         ]
                                     }
                                     ;
                                 </span>
-                            </>
+                            </Fragment>
                         ))}
                         <span className="text-white line">
                             &nbsp;&nbsp;&nbsp;&nbsp;--border:{" "}
-                            {activeTheme?.cssVars.light["border"]};
+                            {customCssVars?.light["border"]};
                         </span>
                         <span className="text-white line">
                             &nbsp;&nbsp;&nbsp;&nbsp;--input:{" "}
-                            {activeTheme?.cssVars.light["input"]};
+                            {customCssVars?.light["input"]};
                         </span>
                         <span className="text-white line">
                             &nbsp;&nbsp;&nbsp;&nbsp;--ring:{" "}
-                            {activeTheme?.cssVars.light["ring"]};
+                            {customCssVars?.light["ring"]};
                         </span>
                         <span className="text-white line">
-                            &nbsp;&nbsp;&nbsp;&nbsp;--radius: {cssVars.light?.radius}
-                            rem;
+                            &nbsp;&nbsp;&nbsp;&nbsp;--radius: {customCssVars?.light?.radius}
                         </span>
                         <span className="text-white line">&nbsp;&nbsp;&#125;</span>
                         <span className="text-white line">&nbsp;</span>
                         <span className="text-white line">&nbsp;&nbsp;.dark &#123;</span>
                         <span className="text-white line">
                             &nbsp;&nbsp;&nbsp;&nbsp;--background:{" "}
-                            {activeTheme?.cssVars.dark["background"]};
+                            {customCssVars?.dark["background"]};
                         </span>
                         <span className="text-white line">
                             &nbsp;&nbsp;&nbsp;&nbsp;--foreground:{" "}
-                            {activeTheme?.cssVars.dark["foreground"]};
+                            {customCssVars?.dark["foreground"]};
                         </span>
                         {[
                             "card",
@@ -176,12 +185,12 @@ function CustomizerCode() {
                             "accent",
                             "destructive",
                         ].map((prefix) => (
-                            <>
+                            <Fragment key={prefix}>
                                 <span className="text-white line">
                                     &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}:{" "}
                                     {
-                                        activeTheme?.cssVars.dark[
-                                        prefix as keyof typeof activeTheme.cssVars.dark
+                                        customCssVars?.dark[
+                                        prefix as keyof typeof customCssVars.dark
                                         ]
                                     }
                                     ;
@@ -189,25 +198,28 @@ function CustomizerCode() {
                                 <span className="text-white line">
                                     &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}-foreground:{" "}
                                     {
-                                        activeTheme?.cssVars.dark[
-                                        `${prefix}-foreground` as keyof typeof activeTheme.cssVars.dark
+                                        customCssVars?.dark[
+                                        `${prefix}-foreground` as keyof typeof customCssVars.dark
                                         ]
                                     }
                                     ;
                                 </span>
-                            </>
+                            </Fragment>
                         ))}
                         <span className="text-white line">
                             &nbsp;&nbsp;&nbsp;&nbsp;--border:{" "}
-                            {activeTheme?.cssVars.dark["border"]};
+                            {customCssVars?.dark["border"]};
                         </span>
                         <span className="text-white line">
                             &nbsp;&nbsp;&nbsp;&nbsp;--input:{" "}
-                            {activeTheme?.cssVars.dark["input"]};
+                            {customCssVars?.dark["input"]};
                         </span>
                         <span className="text-white line">
                             &nbsp;&nbsp;&nbsp;&nbsp;--ring:{" "}
-                            {activeTheme?.cssVars.dark["ring"]};
+                            {customCssVars?.dark["ring"]};
+                        </span>
+                        <span className="text-white line">
+                            &nbsp;&nbsp;&nbsp;&nbsp;--radius: {customCssVars?.dark?.radius}
                         </span>
                         <span className="text-white line">&nbsp;&nbsp;&#125;</span>
                         <span className="text-white line">&#125;</span>
@@ -218,13 +230,13 @@ function CustomizerCode() {
     );
 }
 
-function getThemeCode(theme: Theme, radius?: number) {
+function getThemeCode(theme: ITheme, radius?: string) {
     if (!theme) {
         return "";
     }
 
     if (!radius) {
-        radius = 0.5;
+        radius = "0.5rem";
     }
 
     return template(BASE_STYLES_WITH_VARIABLES)({
@@ -278,6 +290,7 @@ const BASE_STYLES_WITH_VARIABLES = `
       --border: <%- colors.dark["border"] %>;
       --input: <%- colors.dark["input"] %>;
       --ring: <%- colors.dark["ring"] %>;
+      --radius: <%- radius %>rem;
     }
   }
   `;

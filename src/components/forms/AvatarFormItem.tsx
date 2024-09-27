@@ -1,9 +1,9 @@
-import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form"
+import { FormField, FormItem, FormLabel, FormControl, FormDescription } from "@/components/ui/form"
 import { Input as ShadcnInput } from "@/components/ui/input"
 import { PhotoProvider, PhotoView } from 'react-photo-view';
 import { cn } from "@/lib/utils"
-import { useFormContext } from "react-hook-form"
-import { useZodFormContext } from "@/components/forms/ZodForm"
+import { useRemixFormContext } from "remix-hook-form"
+import { FormMessage, useBeringFormContext } from "@/components/forms/BeringForm"
 import { IFormItemProps } from "./types"
 import Help from "./_Help"
 import { DragEventHandler, useEffect, useRef, useState } from "react"
@@ -55,8 +55,8 @@ const AvatarFormItem = ({
     help,
     disabled = false,
 }: IAvatarFormItemProps) => {
-    const { control, watch, setValue } = useFormContext()
-    const { formSchema } = useZodFormContext()
+    const { control, watch, setValue } = useRemixFormContext()
+    const { formSchema } = useBeringFormContext()
     const isRequired = !formSchema.shape[name]?.isOptional() // 判断字段是否必填
     const [image, setImage] = useState<string | undefined>(defaultValue);
     const [dragging, setDragging] = useState(false);
@@ -175,9 +175,10 @@ const AvatarFormItem = ({
                         <FormItem>
                             <FormLabel>
                                 <div
-                                    className={cn("flex relative items-center gap-x-3 rounded-md bg-input-background border border-input ring-offset-background disabled:cursor-not-allowed disabled:opacity-50  hover:cursor-pointer",
-                                        "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none",
-                                        "")}
+                                    className={cn("flex relative items-center gap-x-3 rounded-md bg-input-background border border-input ring-offset-background",
+                                        "disabled:cursor-not-allowed disabled:opacity-50 hover:cursor-pointer",
+                                        "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none"
+                                        )}
                                     tabIndex={0}
                                     onDragEnter={handleDragIn}
                                     onDragLeave={handleDragOut}
@@ -205,7 +206,7 @@ const AvatarFormItem = ({
                                 </div>
                             </FormLabel>
                             <FormControl>
-                                <ShadcnInput
+                                <input
                                     ref={uploadRef}
                                     type="file"
                                     className="sr-only"

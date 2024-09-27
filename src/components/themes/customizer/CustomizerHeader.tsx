@@ -1,18 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { CssVars, themes } from "../themes";
 import { Undo2 } from "lucide-react";
-import { useThemeConfigStore } from "../themeConfigStore";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useTheme } from "../ThemeProvider";
 
 const CustomizerHeader: React.FC = () => {
-  const setConfig = useThemeConfigStore(state => state.setConfig);
+  const { resetThemeCssVars } = useTheme();
 
   const resetConfig = () => {
-    setConfig({
-      theme: "zinc",
-      cssVars: themes.find((theme) => theme.name === "zinc")
-        ?.cssVars as unknown as CssVars,
-    });
+    resetThemeCssVars();
   };
 
   return (

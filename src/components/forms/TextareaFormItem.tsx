@@ -1,8 +1,8 @@
-import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form"
+import { FormField, FormItem, FormLabel, FormControl, FormDescription } from "@/components/ui/form"
 import { Textarea as ShadcnTextarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
-import { useFormContext } from "react-hook-form"
-import { useZodFormContext } from "@/components/forms/ZodForm"
+import { useRemixFormContext } from "remix-hook-form"
+import { FormMessage, useBeringFormContext } from "@/components/forms/BeringForm"
 import { IFormItemProps } from "./types"
 import Help from "./_Help"
 
@@ -18,8 +18,8 @@ const TextareaFormItem = ({
     help,
     ...props
 }: ITextareaProps) => {
-    const { control } = useFormContext()
-    const { formSchema } = useZodFormContext()
+    const { control } = useRemixFormContext()
+    const { formSchema } = useBeringFormContext()
     const isRequired = !formSchema.shape[name]?.isOptional() // 判断字段是否必填
 
     return (

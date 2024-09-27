@@ -1,4 +1,4 @@
-export const themes = [
+export const themes: ITheme[] = [
   {
     name: "zinc",
     label: "Zinc",
@@ -26,6 +26,7 @@ export const themes = [
         "destructive-foreground": "0 0% 98%",
         border: "240 5.9% 90%",
         input: "240 5.9% 90%",
+        "input-background": "240 5.9% 90%",
         ring: "240 5.9% 10%",
         radius: "0.5rem",
       },
@@ -48,6 +49,7 @@ export const themes = [
         "destructive-foreground": "0 0% 98%",
         border: "240 3.7% 15.9%",
         input: "240 3.7% 15.9%",
+        "input-background": "240 5.9% 90%",
         ring: "240 4.9% 83.9%",
         radius: "0.5rem",
       },
@@ -589,6 +591,7 @@ export const themes = [
         border: "12 6.5% 15.1%",
         input: "12 6.5% 15.1%",
         ring: "47.9 95.8% 53.1%",
+        radius: "0.95rem",
       },
     },
   },
@@ -620,6 +623,7 @@ export const themes = [
         border: "220 13% 91%",
         input: "220 13% 91%",
         ring: "262.1 83.3% 57.8%",
+        radius: "0.95rem",
       },
       dark: {
         background: "224 71.4% 4.1%",
@@ -641,55 +645,47 @@ export const themes = [
         border: "215 27.9% 16.9%",
         input: "215 27.9% 16.9%",
         ring: "263.4 70% 50.4%",
+        radius: "0.95rem",
       },
     },
   },
 ] as const;
 
-export type Theme = (typeof themes)[number];
-export type CssVars = {
-  light: {
-    background: string;
-    foreground: string;
-    card: string;
-    "card-foreground": string;
-    popover: string;
-    "popover-foreground": string;
-    primary: string;
-    "primary-foreground": string;
-    secondary: string;
-    "secondary-foreground": string;
-    muted: string;
-    "muted-foreground": string;
-    accent: string;
-    "accent-foreground": string;
-    destructive: string;
-    "destructive-foreground": string;
-    border: string;
-    input: string;
-    ring: string;
-    radius: string;
+
+export interface ICssVars {
+  background: string;
+  foreground: string;
+  card: string;
+  "card-foreground": string;
+  popover: string;
+  "popover-foreground": string;
+  primary: string;
+  "primary-foreground": string;
+  secondary: string;
+  "secondary-foreground": string;
+  muted: string;
+  "muted-foreground": string;
+  accent: string;
+  "accent-foreground": string;
+  destructive: string;
+  "destructive-foreground": string;
+  border: string;
+  input: string;
+  ring: string;
+  radius: string;
+}
+
+export interface IThemeCssVars {
+  light: ICssVars;
+  dark: ICssVars;
+}
+
+export interface ITheme {
+  name: string;
+  label: string;
+  activeColor: {
+    light: string;
+    dark: string;
   };
-  dark: {
-    background: string;
-    foreground: string;
-    card: string;
-    "card-foreground": string;
-    popover: string;
-    "popover-foreground": string;
-    primary: string;
-    "primary-foreground": string;
-    secondary: string;
-    "secondary-foreground": string;
-    muted: string;
-    "muted-foreground": string;
-    accent: string;
-    "accent-foreground": string;
-    destructive: string;
-    "destructive-foreground": string;
-    border: string;
-    input: string;
-    ring: string;
-    radius: string;
-  };
-};
+  cssVars: IThemeCssVars;
+}

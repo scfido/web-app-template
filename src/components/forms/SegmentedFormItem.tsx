@@ -1,10 +1,10 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { cn } from "@/lib/utils"
 import { IFormItemProps } from "@/components/forms/types"
-import { useFormContext } from "react-hook-form"
-import { useZodFormContext } from "@/components/forms/ZodForm"
+import { useRemixFormContext } from "remix-hook-form"
+import { FormMessage, useBeringFormContext } from "@/components/forms/BeringForm"
 import Help from "./_Help"
-import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form"
+import { FormField, FormItem, FormLabel, FormControl, FormDescription } from "@/components/ui/form"
 import { Key, ReactNode } from "react"
 
 export interface ISegmentedOption {
@@ -27,8 +27,8 @@ const SegmentedFormItem = ({
   description,
   className,
 }: ISegmentedFormItemProps) => {
-  const { control } = useFormContext()
-  const { formSchema } = useZodFormContext()
+  const { control } = useRemixFormContext()
+  const { formSchema } = useBeringFormContext()
   const isRequired = !formSchema.shape[name]?.isOptional() // 判断字段是否必填
 
   return (

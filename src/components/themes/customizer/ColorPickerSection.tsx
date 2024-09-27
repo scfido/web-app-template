@@ -1,34 +1,58 @@
 import React, { useState, useEffect } from "react";
 import { useDebounce } from "ahooks";
 import { Label } from "@/components/ui/label";
-import { CssVars } from "../themes";
+import { ICssVars, IThemeCssVars } from "../themes";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { hexToHSL, hslToHex } from "./color.utils";
 import { PipetteIcon } from "lucide-react";
-import { useThemeConfigStore } from "../themeConfigStore";
-import { useAppearance } from "../AppearanceContext";
+import { useTheme } from "../ThemeProvider";
 
-const ColorPickerSection: React.FC = () => {
-  const setConfig = useThemeConfigStore(state => state.setConfig);
-  const cssVars = useThemeConfigStore(state => state.cssVars);
-  const { appearance } = useAppearance();
+const ColorPickerSection = () => {
+  const {
+    appearance,
+    setAppearance,
+    themeCssVars,
+    setThemeCssVars
+  } = useTheme();
   const [colorInfo, setColorInfo] = useState<{
     value: string;
-    key: keyof CssVars["light"];
+    key: keyof ICssVars;
   } | null>(null);
   const debouncedColorInfo = useDebounce(colorInfo, { wait: 300 });
+  const appearanceValue: keyof IThemeCssVars = appearance === "dark" ? "dark" : "light"
+
+// 获取前景色或背景色的字符串缩写，如果不包含就返回DEFAULT
+function getColorAbbreviation(key: string) {
+  if (key.endsWith("-foreground")) {
+    return "fg";
+  }
+  else if(key.endsWith("-background")) {
+    return "bg";
+  }
+  return "DEFAULT";
+}
 
 
-  function groupColorsByAppearance(cssVars: any, appearance: string | undefined) {
-    if (!appearance || typeof cssVars[appearance] !== "object") {
+  function getColorBaseKey(key: string) {
+    if (key.endsWith("-foreground")) {
+      return key.slice(0, -"-foreground".length);
+    }
+    else if(key.endsWith("-background")) {
+      return key.slice(0, -"-background".length);
+    }
+    return key;
+  }
+
+  function groupColorsByAppearance(themeCssVars: IThemeCssVars, appearanceValue: keyof IThemeCssVars | undefined) {
+    if (!appearanceValue || typeof themeCssVars[appearanceValue] !== "object") {
       return {};
     }
 
-    return Object.keys(cssVars[appearance]).reduce<{
+    return Object.keys(themeCssVars[appearanceValue]).reduce<{
       [key: string]: string[];
     }>((acc, key) => {
-      const baseKey = key.endsWith("-foreground") ? key.slice(0, -11) : key;
+      const baseKey = getColorBaseKey(key);
       acc[baseKey] = acc[baseKey] || [];
       acc[baseKey].push(key);
       return acc;
@@ -36,7 +60,7 @@ const ColorPickerSection: React.FC = () => {
   }
 
   const handleColorChange =
-    (key: keyof CssVars["light"]) => (e: React.FormEvent<HTMLInputElement>) => {
+    (key: keyof ICssVars) => (e: React.FormEvent<HTMLInputElement>) => {
       if (e.currentTarget?.value) {
         setColorInfo({ value: e.currentTarget.value, key });
       }
@@ -50,14 +74,13 @@ const ColorPickerSection: React.FC = () => {
         1
       )}% ${hsl.l.toFixed(1)}%`;
 
-      if (appearance) {
-        setConfig({
-          cssVars: {
-            ...cssVars,
-            [appearance]: {
-              ...cssVars[appearance as keyof typeof cssVars],
-              [key]: formattedHsl,
-            },
+
+      if (appearanceValue) {
+        setThemeCssVars({
+          ...themeCssVars,
+          [appearanceValue]: {
+            ...themeCssVars[appearanceValue],
+            [key]: formattedHsl,
           },
         });
       }
@@ -65,27 +88,22 @@ const ColorPickerSection: React.FC = () => {
   }, [debouncedColorInfo]);
 
   const getStyle = (
-    key: keyof CssVars["light"],
-    appearance: string | undefined
+    key: keyof ICssVars,
+    appearanceValue: keyof IThemeCssVars
   ): React.CSSProperties => {
-    if (!appearance) return {};
+    if (!appearanceValue) return {};
     return {
-      "--theme-primary": `hsl(${cssVars[appearance as keyof typeof cssVars][
-        key as keyof (typeof cssVars)["light"]
-      ]
-        })`,
+      "--theme-primary": `hsl(${themeCssVars[appearanceValue][key]})`
     } as React.CSSProperties;
   };
 
-  const getValue = (key: keyof CssVars["light"], appearance: string | undefined) => {
+  const getValue = (key: keyof ICssVars, appearanceValue: keyof IThemeCssVars) => {
     return hslToHex(
-      cssVars[appearance as keyof typeof cssVars][
-      key as keyof CssVars["light"]
-      ] as string
+      themeCssVars[appearanceValue][key] as string
     );
   };
 
-  const groupedColors = groupColorsByAppearance(cssVars, appearance);
+  const groupedColors = groupColorsByAppearance(themeCssVars, appearanceValue);
 
   const organizeColors = () => {
     const singles: { [key: string]: string[] } = {};
@@ -174,9 +192,9 @@ const ColorPickerSection: React.FC = () => {
                       `[&::-webkit-color-swatch-wrapper]:p-0 border-none`,
                       "cursor-pointer"
                     )}
-                    style={getStyle(key as keyof CssVars["light"], appearance)}
-                    value={getValue(key as keyof CssVars["light"], appearance)}
-                    onChange={handleColorChange(key as keyof CssVars["light"])}
+                    style={getStyle(key as keyof ICssVars, appearanceValue)}
+                    value={getValue(key as keyof ICssVars, appearanceValue)}
+                    onChange={handleColorChange(key as keyof ICssVars)}
                     name={key}
                     ref={ref}
                   />
@@ -192,7 +210,7 @@ const ColorPickerSection: React.FC = () => {
                 </div>
                 {hasPair && (
                   <label htmlFor={key} className="text-xs uppercase">
-                    {key.endsWith("-foreground") ? "fg" : "bg"}
+                    {getColorAbbreviation(key)}
                   </label>
                 )}
               </div>

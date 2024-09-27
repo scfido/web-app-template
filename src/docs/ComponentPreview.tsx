@@ -8,7 +8,7 @@ export interface IComponentPreviewProps extends React.HTMLAttributes<HTMLDivElem
 const ComponentPreview = (props: IComponentPreviewProps) => {
     const {title, description, children} = props
     return (
-        <Card className="m-8 not-prose">
+        <Card className="not-prose">
             <CardHeader>
                 <CardTitle>{title}</CardTitle>
                 <CardDescription>{description}</CardDescription>

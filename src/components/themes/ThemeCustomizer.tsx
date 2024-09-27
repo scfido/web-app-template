@@ -3,19 +3,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { Button } from "@/components/ui/button"
 import { CheckIcon, Paintbrush } from "lucide-react"
-import ThemeProvider from "./ThemeProvider"
+import { useTheme } from "./ThemeProvider"
 import { cn } from "@/lib/utils"
 import React from "react"
 import CustomizerHeader from "./customizer/CustomizerHeader"
-import ColorSection from "./customizer/CustomizerColor"
-import RadiusSection from "./customizer/CustomizerRadius"
-import AppearanceSection from "./customizer/CustomizerAppearance"
+import ColorSection from "./customizer/ColorSection"
+import RadiusSection from "./customizer/RadiusSection"
+import AppearanceSection from "./customizer/AppearanceSection"
 import ColorPickerSection from "./customizer/ColorPickerSection"
-import { useThemeConfigStore } from "./themeConfigStore"
-import { useAppearance } from "./AppearanceContext"
 import { Skeleton } from "../ui/skeleton"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Drawer, DrawerContent, DrawerDescription, DrawerTitle, DrawerTrigger } from "../ui/drawer"
@@ -26,21 +24,21 @@ import { CopyCodeButton } from "./customizer/CopyCodeButton"
 
 const Customizer = ({ className }: { className?: string }) => {
   return (
-    <ThemeProvider
+    <div
       className={cn(
-        "fixed inset-y-0 right-0 flex flex-col md:min-h-[95vh]  p-4 space-y-4 overflow-y-scroll border-2 rounded-md shadow-sm scroll-y-auto backdrop-blur-sm bg-white/80 dark:bg-black/80 md:space-y-6",
+        "fixed inset-0 flex flex-col md:min-h-[95vh]  p-4 space-y-4 overflow-y-scroll border-2 rounded-md shadow-sm scroll-y-auto backdrop-blur-sm bg-white/80 dark:bg-black/80 md:space-y-6",
         className
       )}
     >
       <CustomizerHeader />
       <div className="flex flex-col flex-1 gap-4 md:gap-6">
         <ColorSection />
-        <RadiusSection />
         <AppearanceSection />
+        <RadiusSection />
         <ColorPickerSection />
         <CopyCodeButton />
       </div>
-    </ThemeProvider>
+    </div>
   );
 }
 
@@ -55,10 +53,8 @@ const ThemeCustomizer = (
 
   }: IThemeCustomizerProps
 ) => {
-  const setConfig = useThemeConfigStore(state => state.setConfig);
-  const themeColor = useThemeConfigStore(state => state.theme)
-  const { appearance } = useAppearance();
   const [mounted, setMounted] = React.useState(false);
+  const { themeName, setThemeName, appearance } = useTheme();
 
   React.useEffect(() => {
     setMounted(true);
@@ -66,41 +62,23 @@ const ThemeCustomizer = (
 
   return (
     <div {...props} className={cn("flex items-center space-x-2", className)} >
-      <Drawer>
-        <DrawerTrigger asChild>
-          <Button variant="outline" className="md:hidden">
-            <Paintbrush className="w-4 h-4 mr-2" />
-            定制
-          </Button>
-        </DrawerTrigger>
-        <DrawerContent className="h-[85%] p-6 pt-10">
-          <DrawerTitle>定制主题</DrawerTitle>
-          <DrawerDescription>定制颜色和外观</DrawerDescription>
-          <Customizer />
-        </DrawerContent>
-      </Drawer>
       <div className="hidden md:flex">
         <div className="mr-2 hidden items-center space-x-0.5 lg:flex">
           {mounted ? (
             <>
-              {["zinc", "rose", "blue", "green", "orange"].map((color) => {
-                const theme = themes.find((theme) => theme.name === color);
-                const isActive = themeColor === color;
+              {["zinc", "rose", "blue", "green", "orange"].map((name) => {
+                const theme = themes.find((theme) => theme.name === name);
+                const isActive = themeName === name;
 
                 if (!theme) {
                   return null;
                 }
 
                 return (
-                  <Tooltip key={theme.name}>
+                  <Tooltip key={name}>
                     <TooltipTrigger asChild>
                       <button
-                        onClick={() =>
-                          setConfig({
-                            theme: theme.name,
-                            cssVars: theme.cssVars as any,
-                          })
-                        }
+                        onClick={() => setThemeName(name)}
                         className={cn(
                           "flex h-9 w-9 items-center justify-center rounded-full border-2 text-xs",
                           isActive
@@ -148,22 +126,38 @@ const ThemeCustomizer = (
             </div>
           )}
         </div>
-        <Popover>
-          <PopoverTrigger className="hidden md:flex" asChild>
-            <Button variant="outline">
-              <Paintbrush className="h-4 mr-2" />
-              定制
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent
-            align="end"
-            className="z-40 w-[30rem] rounded-[0.5rem] bg-white p-6 dark:bg-zinc-950"
-          >
-            <Customizer />
-          </PopoverContent>
-        </Popover>
       </div>
-    </div>
+      {/* 移动端 */}
+      <Drawer>
+        <DrawerTrigger asChild>
+          <Button variant="outline" className="md:hidden">
+            <Paintbrush className="w-4 h-4 mr-2" />
+            定制
+          </Button>
+        </DrawerTrigger>
+        <DrawerContent className="h-[85%] border-0 p-6 pt-10">
+          <VisuallyHidden.Root>
+            <DrawerTitle>定制主题</DrawerTitle>
+            <DrawerDescription>定制颜色和外观</DrawerDescription>
+          </VisuallyHidden.Root>
+          <Customizer />
+        </DrawerContent>
+      </Drawer>
+      {/* 桌面端 */}
+      <Popover>
+        <PopoverTrigger className="hidden md:flex" asChild>
+          <Button variant="outline">
+            <Paintbrush className="h-4 mr-2" />定制
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          align="end"
+          className="z-40 w-[30rem] rounded-[0.5rem] bg-white p-6 dark:bg-zinc-950"
+        >
+          <Customizer />
+        </PopoverContent>
+      </Popover>
+    </div >
   )
 }
 

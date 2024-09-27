@@ -1,18 +1,13 @@
-import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form"
-import { Input as ShadcnInput } from "@/components/ui/input"
+import { FormField, FormItem, FormLabel, FormControl, FormDescription } from "@/components/ui/form"
 import { cn } from "@/lib/utils"
-import { useFormContext } from "react-hook-form"
-import { useZodFormContext } from "@/components/forms/ZodForm"
+import { useRemixFormContext } from "remix-hook-form"
+import { FormMessage, useBeringFormContext } from "@/components/forms/BeringForm"
 import { IFormItemProps } from "./types"
 import Help from "./_Help"
-import { isSelectOption, isSelectOptionGroup, isSelectSeparator, renderSelectOption, SelectOptionType } from "@/components/Select"
+import { renderSelectOption, SelectOptionType } from "@/components/Select"
 import {
     Select,
     SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectSeparator,
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
@@ -31,8 +26,8 @@ const SelectFormItem = ({
     options,
     ...props
 }: ISelectFormItemProps) => {
-    const { control } = useFormContext()
-    const { formSchema } = useZodFormContext()
+    const { control } = useRemixFormContext()
+    const { formSchema } = useBeringFormContext()
     const isRequired = !formSchema.shape[name]?.isOptional() // 判断字段是否必填
 
     return (

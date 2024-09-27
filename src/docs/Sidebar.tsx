@@ -1,11 +1,8 @@
 import { cn } from "@/lib/utils"
-import { Link } from "react-router-dom"
 import { KeySquare, LogIn, SquarePower, TextCursorInput, ContactRound, Palette, FlaskConical } from "lucide-react"
+import { NavLink } from "@remix-run/react"
 
 
-interface ISidebarProps extends React.HTMLAttributes<HTMLDivElement> {
-  className?: string
-}
 
 const menuItems = [
   {
@@ -21,7 +18,7 @@ const menuItems = [
   {
     title: "组件",
     items: [
-     
+
       {
         title: "Button",
         path: "components/button",
@@ -59,8 +56,8 @@ const menuItems = [
       },
       {
         title: "头像",
-        path:"forms/avatar",
-        icon: <ContactRound size={16}/>
+        path: "forms/avatar",
+        icon: <ContactRound size={16} />
       }
     ]
   },
@@ -81,7 +78,12 @@ const menuItems = [
   }
 ]
 
-export function Sidebar({ className }: ISidebarProps) {
+
+interface ISidebarProps extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string
+}
+
+const Sidebar = ({ className }: ISidebarProps) => {
   return (
     <div className={cn("pb-12", className)}>
       <div className="space-y-4 py-4">
@@ -92,14 +94,18 @@ export function Sidebar({ className }: ISidebarProps) {
             </h2>
             <div className="space-y-1">
               {item.items.map((subItem, subIndex) => (
-                <Link
+                <NavLink
                   key={subIndex}
                   to={subItem.path}
-                  className="flex px-4 py-2 gap-1 w-full items-center hover:bg-accent hover:text-accent-foreground "
+                  className={({ isActive }) => cn(
+                    "flex px-4 py-2 gap-1 w-full items-center",
+                    "hover:bg-accent hover:text-accent-foreground ",
+                    { "bg-accent text-accent-foreground": isActive }
+                  )}
                 >
                   {subItem.icon}
                   {subItem.title}
-                </Link>
+                </NavLink>
               ))}
             </div>
           </div>
@@ -108,3 +114,5 @@ export function Sidebar({ className }: ISidebarProps) {
     </div>
   )
 }
+
+export default Sidebar

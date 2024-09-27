@@ -1,4 +1,4 @@
-import ZodForm from "./ZodForm"
+import BeringForm from "./BeringForm"
 import InputFormItem from "./InputFormItem"
 import CheckBoxFormItem from "./CheckBoxFormItem"
 import CheckBoxGroupFormItem from "./CheckBoxGroupFormItem" 
@@ -14,9 +14,10 @@ import CheckboxListFormItem from "./CheckboxListFormItem"
 import SegmentedFormItem from "./SegmentedFormItem"
 import AddonInputFormItem from "./AddonInputFormItem"
 import AvatarFormItem from "./AvatarFormItem"
+import SubmitButton from "./SubmitButton"
 
 export {
-    ZodForm,
+    BeringForm,
     InputFormItem,
     CheckBoxFormItem,
     CheckBoxGroupFormItem,
@@ -31,5 +32,6 @@ export {
     CheckboxListFormItem,
     SegmentedFormItem,
     AddonInputFormItem,
-    AvatarFormItem
+    AvatarFormItem,
+    SubmitButton
 }

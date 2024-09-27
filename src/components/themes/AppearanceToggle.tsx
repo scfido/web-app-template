@@ -1,9 +1,9 @@
 import { Moon, Sun } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useAppearance } from "@/components/themes/AppearanceContext"
+import { useTheme } from "@/components/themes/ThemeProvider"
 
 export function AppearanceToggle() {
-  const { appearance, setAppearance } = useAppearance()
+  const { appearance, setAppearance } = useTheme()
 
   return (
     <Button variant="outline" size="icon" onClick={() => setAppearance(appearance === 'light' ? 'dark' : 'light')}>

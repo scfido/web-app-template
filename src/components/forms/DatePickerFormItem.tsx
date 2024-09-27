@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils"
-import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form"
-import { useFormContext } from "react-hook-form"
-import { useZodFormContext } from "@/components/forms/ZodForm"
+import { FormField, FormItem, FormLabel, FormControl, FormDescription } from "@/components/ui/form"
+import { useRemixFormContext } from "remix-hook-form"
+import { FormMessage, useBeringFormContext } from "@/components/forms/BeringForm"
 import Help from "./_Help"
 import { IFormItemProps } from "./types"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
@@ -24,8 +24,8 @@ const DatePickerFormItem = ({
     help,
     ...props
 }: IDatePickerFormItemProps) => {
-    const { control } = useFormContext()
-    const { formSchema } = useZodFormContext()
+    const { control } = useRemixFormContext()
+    const { formSchema } = useBeringFormContext()
     const isRequired = !formSchema.shape[name]?.isOptional() // 判断字段是否必填
     const maxDate = formSchema.shape[name]?.maxDate ?? new Date()
     const minDate = formSchema.shape[name]?.minDate ?? new Date("1900-01-01")
