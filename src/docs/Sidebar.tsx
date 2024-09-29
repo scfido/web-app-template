@@ -99,8 +99,8 @@ const Sidebar = ({ className }: ISidebarProps) => {
                   to={subItem.path}
                   className={({ isActive }) => cn(
                     "flex px-4 py-2 gap-1 w-full items-center",
-                    "hover:bg-accent hover:text-accent-foreground ",
-                    { "bg-accent text-accent-foreground": isActive }
+                    "hover:bg-accent-hover",
+                    { "bg-accent-background text-accent-foreground": isActive }
                   )}
                 >
                   {subItem.icon}

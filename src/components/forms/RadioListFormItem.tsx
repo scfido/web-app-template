@@ -68,7 +68,8 @@ const RadioGroupFormItem = ({
                                 <FormItem
                                     key={option.value}
                                     className={cn("flex border rounded min-h-12 space-y-0",
-                                        field.value === option.value ? "bg-primary/10 border-primary" : "bg-background"
+                                        { "hover:bg-accent-hover": !option.disabled },
+                                        field.value === option.value ? "bg-accent-background text-accent-foreground border-accent" : "bg-input-background"
                                     )}>
                                     <div className="flex items-center justify-center w-12">
                                         <FormControl>

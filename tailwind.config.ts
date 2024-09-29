@@ -3,7 +3,7 @@ import type { Config } from "tailwindcss";
 export default {
   darkMode: ["class"],
   content: [
-    "./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}",
+    "./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx,mdx}",
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
@@ -47,6 +47,8 @@ export default {
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
+          hover: "hsl(var(--accent) / 10%)",
+          background: "hsl(var(--accent) / 20%)",
           foreground: "hsl(var(--accent-foreground))",
         },
         popover: {

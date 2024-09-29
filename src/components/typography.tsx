@@ -6,7 +6,7 @@ export interface ITyprographyHeaderProps
 }
 
 // 示例：forwardRef 用法和暴露HTML元素原生属性的方法
-const TypographyH1 = React.forwardRef<HTMLHeadingElement, ITyprographyHeaderProps>(
+export const H1 = React.forwardRef<HTMLHeadingElement, ITyprographyHeaderProps>(
     (props, ref) => {
         const { children, ...rest } = props
         return (
@@ -21,4 +21,3 @@ const TypographyH1 = React.forwardRef<HTMLHeadingElement, ITyprographyHeaderProp
     }
 )
 
-export default TypographyH1

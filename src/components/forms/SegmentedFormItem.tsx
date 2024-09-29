@@ -60,8 +60,9 @@ const SegmentedFormItem = ({
                   <FormLabel
                     className={cn(
                       "flex h-10 w-full cursor-pointer items-center justify-center text-foreground rounded-sm px-3 text-sm font-normal peer-data-[state=checked]:font-medium",
-                      "peer-data-[state=checked]:bg-primary/10 peer-data-[state=checked]:border-primary peer-data-[state=checked]:border peer-data-[state=checked]:text-foreground",
-                      { "hover:bg-background/50": !option.disabled },
+                      "peer-data-[state=checked]:bg-accent/50 peer-data-[state=checked]:border-accent peer-data-[state=checked]:border peer-data-[state=checked]:text-accent-foreground",
+                      "hover:bg-accent-hover",
+                      { "hover:bg-accent-hover": !option.disabled },
                       { "cursor-not-allowed text-muted-foreground": option.disabled }
                     )}
                   >

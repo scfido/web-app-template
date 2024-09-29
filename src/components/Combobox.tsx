@@ -70,7 +70,7 @@ export function renderComboboxOption(options: ComboboxOptionType[], selectedValu
         if (isComboboxOption(option)) {
             return (
                 <CommandItem
-                    className={cn(option.disabled && "text-gray-500")}
+                    className={cn(option.disabled && "text-muted-foreground")}
                     key={option.key ?? option.value}
                     value={option.value}
                     keywords={[option.label ?? option.value]}
@@ -95,7 +95,6 @@ export function renderComboboxOption(options: ComboboxOptionType[], selectedValu
                     {option.options?.map((option) => {
                         return (
                             <CommandItem
-                                className={cn(option.disabled && "text-gray-500")}
                                 key={option.key ?? option.value}
                                 value={option.value}
                                 keywords={[option.label ?? option.value]}
@@ -184,7 +183,7 @@ const Component = ({
                     variant="outline"
                     role="combobox"
                     className={cn(
-                        "w-[200px] justify-between",
+                        "w-[200px] justify-between bg-input-background",
                         !value && "text-muted-foreground",
                         comboboxVariants({ size, className }),
                     )}

@@ -26,7 +26,7 @@ const SwitchFormItem = ({
             control={control}
             name={name}
             render={({ field }) => (
-                <FormItem className={cn("flex flex-row items-center justify-between rounded-lg border p-4", className)}>
+                <FormItem className={cn("flex flex-row items-center justify-between rounded-lg border bg-input-background p-4", className)}>
                     <div className="space-y-0.5">
                         <FormLabel className={cn("flex gap-1", { "after:content-['*'] after:text-red-400": isRequired })}>
                             {label ?? name}

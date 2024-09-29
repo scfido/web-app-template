@@ -1,10 +1,12 @@
 import { vitePlugin as remix } from "@remix-run/dev";
 import { defineConfig } from "vite";
+import mdx from '@mdx-js/rollup'
 import tsconfigPaths from "vite-tsconfig-paths";
 import { flatRoutes } from "remix-flat-routes";
 
 export default defineConfig({
   plugins: [
+    { enforce: 'pre', ...mdx() },
     remix({
       ignoredRouteFiles: ["**/*"],
       routes: async defineRoutes => {
