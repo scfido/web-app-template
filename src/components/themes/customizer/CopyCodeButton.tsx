@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { CheckIcon, CopyIcon } from "lucide-react";
 import React, { Fragment } from "react";
 import template from "lodash.template";
-import { ITheme } from "../themes";
+import { ITheme, IThemeCssVars } from "../themes";
 import ThemeProvider, { useTheme } from "../ThemeProvider";
 
 export async function copyToClipboardWithMeta(value: string) {
@@ -12,8 +12,10 @@ export async function copyToClipboardWithMeta(value: string) {
 }
 
 export function CopyCodeButton() {
-    const { themeCssVars: customCssVars, themeName } = useTheme()
+    const { themeCssVars, getTheme, themeName } = useTheme()
     const [hasCopied, setHasCopied] = React.useState(false);
+    const [codeType, setCodeType] = React.useState<'css' | 'json'>('css');
+    const theme = getTheme(themeName)
 
     React.useEffect(() => {
         setTimeout(() => {
@@ -23,14 +25,11 @@ export function CopyCodeButton() {
 
     return (
         <>
-            {themeName && (
+            {themeCssVars && (
                 <Button
                     onClick={() => {
                         copyToClipboardWithMeta(
-                            getThemeCode(
-                                themeName as any,
-                                customCssVars?.light?.radius
-                            )
+                            getThemeCode(theme, themeCssVars, codeType)
                         );
                         setHasCopied(true);
                     }}
@@ -58,7 +57,7 @@ export function CopyCodeButton() {
                             将您的配色方案生成为代码。
                         </DialogDescription>
                     </DialogHeader>
-                    <Tabs defaultValue="css" className="w-full">
+                    <Tabs defaultValue="css" className="w-full" onValueChange={(value) => setCodeType(value as 'css' | 'json')}>
                         <TabsList>
                             <TabsTrigger value="css">CSS</TabsTrigger>
                             <TabsTrigger value="json">JSON</TabsTrigger>
@@ -72,16 +71,13 @@ export function CopyCodeButton() {
                     </Tabs>
 
                     <ThemeProvider defaultTheme="zinc" className="relative">
-                        <CustomizerCode />
-                        {themeName && (
+                        <CustomizerCode theme={theme} themeCssVars={themeCssVars} codeType={codeType} />
+                        {themeCssVars && (
                             <Button
                                 size="sm"
                                 onClick={() => {
                                     copyToClipboardWithMeta(
-                                        getThemeCode(
-                                            themeName as any,
-                                            customCssVars?.light?.radius
-                                        )
+                                        getThemeCode(theme, themeCssVars, codeType)
                                     );
                                     setHasCopied(true);
                                 }}
@@ -102,127 +98,21 @@ export function CopyCodeButton() {
     );
 }
 
-function CustomizerCode() {
-    const { themeCssVars: customCssVars } = useTheme()
-
+function CustomizerCode({
+    theme,
+    themeCssVars,
+    codeType
+}: {
+    theme: ITheme,
+    themeCssVars?: IThemeCssVars,
+    codeType: 'css' | 'json'
+}) {
     return (
         <ThemeProvider defaultTheme="zinc" className="relative space-y-4">
             <div data-rehype-pretty-code-fragment="">
                 <pre className="max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900">
-                    <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
-                        <span className="text-white line">@layer base &#123;</span>
-                        <span className="text-white line">&nbsp;&nbsp;:root &#123;</span>
-                        <span className="text-white line">
-                            &nbsp;&nbsp;&nbsp;&nbsp;--background:{" "}
-                            {customCssVars?.light["background"]};
-                        </span>
-                        <span className="text-white line">
-                            &nbsp;&nbsp;&nbsp;&nbsp;--foreground:{" "}
-                            {customCssVars?.light["foreground"]};
-                        </span>
-                        {[
-                            "card",
-                            "popover",
-                            "primary",
-                            "secondary",
-                            "muted",
-                            "accent",
-                            "destructive",
-                        ].map((prefix) => (
-                            <Fragment key={prefix}>
-                                <span className="text-white line">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}:{" "}
-                                    {
-                                        customCssVars?.light[
-                                        prefix as keyof typeof customCssVars.light
-                                        ]
-                                    }
-                                    ;
-                                </span>
-                                <span className="text-white line">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}-foreground:{" "}
-                                    {
-                                        customCssVars?.light[
-                                        `${prefix}-foreground` as keyof typeof customCssVars.light
-                                        ]
-                                    }
-                                    ;
-                                </span>
-                            </Fragment>
-                        ))}
-                        <span className="text-white line">
-                            &nbsp;&nbsp;&nbsp;&nbsp;--border:{" "}
-                            {customCssVars?.light["border"]};
-                        </span>
-                        <span className="text-white line">
-                            &nbsp;&nbsp;&nbsp;&nbsp;--input:{" "}
-                            {customCssVars?.light["input"]};
-                        </span>
-                        <span className="text-white line">
-                            &nbsp;&nbsp;&nbsp;&nbsp;--ring:{" "}
-                            {customCssVars?.light["ring"]};
-                        </span>
-                        <span className="text-white line">
-                            &nbsp;&nbsp;&nbsp;&nbsp;--radius: {customCssVars?.light?.radius}
-                        </span>
-                        <span className="text-white line">&nbsp;&nbsp;&#125;</span>
-                        <span className="text-white line">&nbsp;</span>
-                        <span className="text-white line">&nbsp;&nbsp;.dark &#123;</span>
-                        <span className="text-white line">
-                            &nbsp;&nbsp;&nbsp;&nbsp;--background:{" "}
-                            {customCssVars?.dark["background"]};
-                        </span>
-                        <span className="text-white line">
-                            &nbsp;&nbsp;&nbsp;&nbsp;--foreground:{" "}
-                            {customCssVars?.dark["foreground"]};
-                        </span>
-                        {[
-                            "card",
-                            "popover",
-                            "primary",
-                            "secondary",
-                            "muted",
-                            "accent",
-                            "destructive",
-                        ].map((prefix) => (
-                            <Fragment key={prefix}>
-                                <span className="text-white line">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}:{" "}
-                                    {
-                                        customCssVars?.dark[
-                                        prefix as keyof typeof customCssVars.dark
-                                        ]
-                                    }
-                                    ;
-                                </span>
-                                <span className="text-white line">
-                                    &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}-foreground:{" "}
-                                    {
-                                        customCssVars?.dark[
-                                        `${prefix}-foreground` as keyof typeof customCssVars.dark
-                                        ]
-                                    }
-                                    ;
-                                </span>
-                            </Fragment>
-                        ))}
-                        <span className="text-white line">
-                            &nbsp;&nbsp;&nbsp;&nbsp;--border:{" "}
-                            {customCssVars?.dark["border"]};
-                        </span>
-                        <span className="text-white line">
-                            &nbsp;&nbsp;&nbsp;&nbsp;--input:{" "}
-                            {customCssVars?.dark["input"]};
-                        </span>
-                        <span className="text-white line">
-                            &nbsp;&nbsp;&nbsp;&nbsp;--ring:{" "}
-                            {customCssVars?.dark["ring"]};
-                        </span>
-                        <span className="text-white line">
-                            &nbsp;&nbsp;&nbsp;&nbsp;--radius: {customCssVars?.dark?.radius}
-                        </span>
-                        <span className="text-white line">&nbsp;&nbsp;&#125;</span>
-                        <span className="text-white line">&#125;</span>
+                    <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm text-gray-200">
+                        {getThemeCode(theme, themeCssVars, codeType)}
                     </code>
                 </pre>
             </div>
@@ -230,67 +120,122 @@ function CustomizerCode() {
     );
 }
 
-function getThemeCode(theme: ITheme, radius?: string) {
-    if (!theme) {
+function getThemeCode(theme: ITheme, cssVars: IThemeCssVars | undefined, codeType: 'css' | 'json') {
+    if (!cssVars) {
         return "";
     }
 
-    if (!radius) {
-        radius = "0.5rem";
-    }
-
-    return template(BASE_STYLES_WITH_VARIABLES)({
-        colors: theme.cssVars,
-        radius,
+    return template(codeType === 'css' ? BASE_STYLES_WITH_VARIABLES : BASE_THEME_WITH_VARIABLES)({
+        theme,
+        cssVars,
     });
 }
 
 const BASE_STYLES_WITH_VARIABLES = `
   @layer base {
     :root {
-      --background: <%- colors.light["background"] %>;
-      --foreground: <%- colors.light["foreground"] %>;
-      --card: <%- colors.light["card"] %>;
-      --card-foreground: <%- colors.light["card-foreground"] %>;
-      --popover: <%- colors.light["popover"] %>;
-      --popover-foreground: <%- colors.light["popover-foreground"] %>;
-      --primary: <%- colors.light["primary"] %>;
-      --primary-foreground: <%- colors.light["primary-foreground"] %>;
-      --secondary: <%- colors.light["secondary"] %>;
-      --secondary-foreground: <%- colors.light["secondary-foreground"] %>;
-      --muted: <%- colors.light["muted"] %>;
-      --muted-foreground: <%- colors.light["muted-foreground"] %>;
-      --accent: <%- colors.light["accent"] %>;
-      --accent-foreground: <%- colors.light["accent-foreground"] %>;
-      --destructive: <%- colors.light["destructive"] %>;
-      --destructive-foreground: <%- colors.light["destructive-foreground"] %>;
-      --border: <%- colors.light["border"] %>;
-      --input: <%- colors.light["input"] %>;
-      --ring: <%- colors.light["ring"] %>;
-      --radius: <%- radius %>rem;
+      --background: <%- cssVars.light["background"] %>;
+      --foreground: <%- cssVars.light["foreground"] %>;
+      --card: <%- cssVars.light["card"] %>;
+      --card-foreground: <%- cssVars.light["card-foreground"] %>;
+      --popover: <%- cssVars.light["popover"] %>;
+      --popover-foreground: <%- cssVars.light["popover-foreground"] %>;
+      --primary: <%- cssVars.light["primary"] %>;
+      --primary-foreground: <%- cssVars.light["primary-foreground"] %>;
+      --secondary: <%- cssVars.light["secondary"] %>;
+      --secondary-foreground: <%- cssVars.light["secondary-foreground"] %>;
+      --muted: <%- cssVars.light["muted"] %>;
+      --muted-foreground: <%- cssVars.light["muted-foreground"] %>;
+      --accent: <%- cssVars.light["accent"] %>;
+      --accent-foreground: <%- cssVars.light["accent-foreground"] %>;
+      --destructive: <%- cssVars.light["destructive"] %>;
+      --destructive-foreground: <%- cssVars.light["destructive-foreground"] %>;
+      --border: <%- cssVars.light["border"] %>;
+      --input: <%- cssVars.light["input"] %>;
+      --input-background: <%- cssVars.light["input-background"] %>;
+      --ring: <%- cssVars.light["ring"] %>;
+      --radius: <%- cssVars.light["radius"] %>;
     }
    
     .dark {
-      --background: <%- colors.dark["background"] %>;
-      --foreground: <%- colors.dark["foreground"] %>;
-      --card: <%- colors.dark["card"] %>;
-      --card-foreground: <%- colors.dark["card-foreground"] %>;
-      --popover: <%- colors.dark["popover"] %>;
-      --popover-foreground: <%- colors.dark["popover-foreground"] %>;
-      --primary: <%- colors.dark["primary"] %>;
-      --primary-foreground: <%- colors.dark["primary-foreground"] %>;
-      --secondary: <%- colors.dark["secondary"] %>;
-      --secondary-foreground: <%- colors.dark["secondary-foreground"] %>;
-      --muted: <%- colors.dark["muted"] %>;
-      --muted-foreground: <%- colors.dark["muted-foreground"] %>;
-      --accent: <%- colors.dark["accent"] %>;
-      --accent-foreground: <%- colors.dark["accent-foreground"] %>;
-      --destructive: <%- colors.dark["destructive"] %>;
-      --destructive-foreground: <%- colors.dark["destructive-foreground"] %>;
-      --border: <%- colors.dark["border"] %>;
-      --input: <%- colors.dark["input"] %>;
-      --ring: <%- colors.dark["ring"] %>;
-      --radius: <%- radius %>rem;
+      --background: <%- cssVars.dark["background"] %>;
+      --foreground: <%- cssVars.dark["foreground"] %>;
+      --card: <%- cssVars.dark["card"] %>;
+      --card-foreground: <%- cssVars.dark["card-foreground"] %>;
+      --popover: <%- cssVars.dark["popover"] %>;
+      --popover-foreground: <%- cssVars.dark["popover-foreground"] %>;
+      --primary: <%- cssVars.dark["primary"] %>;
+      --primary-foreground: <%- cssVars.dark["primary-foreground"] %>;
+      --secondary: <%- cssVars.dark["secondary"] %>;
+      --secondary-foreground: <%- cssVars.dark["secondary-foreground"] %>;
+      --muted: <%- cssVars.dark["muted"] %>;
+      --muted-foreground: <%- cssVars.dark["muted-foreground"] %>;
+      --accent: <%- cssVars.dark["accent"] %>;
+      --accent-foreground: <%- cssVars.dark["accent-foreground"] %>;
+      --destructive: <%- cssVars.dark["destructive"] %>;
+      --destructive-foreground: <%- cssVars.dark["destructive-foreground"] %>;
+      --border: <%- cssVars.dark["border"] %>;
+      --input: <%- cssVars.dark["input"] %>;
+      --input-background: <%- cssVars.dark["input-background"] %>;
+      --ring: <%- cssVars.dark["ring"] %>;
+      --radius: <%- cssVars.light["radius"] %>;
     }
+  }
+  `;
+
+const BASE_THEME_WITH_VARIABLES = `
+   {
+    name: "<%- theme.name %>",      
+    label: "<%- theme.label %>",
+    cssVars: {
+      light: {
+        background: <%- cssVars.light["background"] %>,
+        foreground: <%- cssVars.light["foreground"] %>,
+        active: <%- cssVars.light["active"] %>,
+        card: <%- cssVars.light["card"] %>,
+        "card-foreground": <%- cssVars.light["card-foreground"] %>,
+        popover: <%- cssVars.light["popover"] %>,
+        "popover-foreground": <%- cssVars.light["popover-foreground"] %>,
+        primary: <%- cssVars.light["primary"] %>,
+        "primary-foreground": <%- cssVars.light["primary-foreground"] %>,
+        secondary: <%- cssVars.light["secondary"] %>,
+        "secondary-foreground": <%- cssVars.light["secondary-foreground"] %>,
+        muted: <%- cssVars.light["muted"] %>,
+        "muted-foreground": <%- cssVars.light["muted-foreground"] %>,
+        accent: <%- cssVars.light["accent"] %>,
+        "accent-foreground": <%- cssVars.light["accent-foreground"] %>,
+        destructive: <%- cssVars.light["destructive"] %>,
+        "destructive-foreground": <%- cssVars.light["destructive-foreground"] %>,
+        border: <%- cssVars.light["border"] %>,
+        input: <%- cssVars.light["input"] %>,
+        "input-background": <%- cssVars.light["input-background"] %>,
+        ring: <%- cssVars.light["ring"] %>,
+        radius: <%- cssVars.light["radius"] %>,
+      },
+      dark: {
+        background: <%- cssVars.dark["background"] %>,
+        foreground: <%- cssVars.dark["foreground"] %>,
+        active: <%- cssVars.dark["active"] %>,
+        card: <%- cssVars.dark["card"] %>,
+        "card-foreground": <%- cssVars.dark["card-foreground"] %>,
+        popover: <%- cssVars.dark["popover"] %>,
+        "popover-foreground": <%- cssVars.dark["popover-foreground"] %>,
+        primary: <%- cssVars.dark["primary"] %>,
+        "primary-foreground": <%- cssVars.dark["primary-foreground"] %>,
+        secondary: <%- cssVars.dark["secondary"] %>,
+        "secondary-foreground": <%- cssVars.dark["secondary-foreground"] %>,
+        muted: <%- cssVars.dark["muted"] %>,
+        "muted-foreground": <%- cssVars.dark["muted-foreground"] %>,
+        accent: <%- cssVars.dark["accent"] %>,
+        "accent-foreground": <%- cssVars.dark["accent-foreground"] %>,
+        destructive: <%- cssVars.dark["destructive"] %>,
+        "destructive-foreground": <%- cssVars.dark["destructive-foreground"] %>,
+        border: <%- cssVars.dark["border"] %>,
+        input: <%- cssVars.dark["input"] %>,
+        "input-background": <%- cssVars.dark["input-background"] %>,
+        ring: <%- cssVars.dark["ring"] %>,
+        radius: <%- cssVars.light["radius"] %>,
+      },
+    },
   }
   `;

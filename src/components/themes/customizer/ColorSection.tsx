@@ -38,8 +38,7 @@ const ColorSection: React.FC = () => {
 							)}
 							style={
 								{
-									"--theme-primary": `hsl(${theme?.activeColor[appearance === "dark" ? "dark" : "light"]
-										})`,
+									"--theme-primary": `hsl(${theme?.cssVars[appearance === "dark" ? "dark" : "light"].primary})`,
 								} as React.CSSProperties
 							}
 						>

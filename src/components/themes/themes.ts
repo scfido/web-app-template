@@ -2,14 +2,11 @@ export const themes: ITheme[] = [
   {
     name: "zinc",
     label: "Zinc",
-    activeColor: {
-      light: "240 5.9% 10%",
-      dark: "240 5.2% 33.9%",
-    },
     cssVars: {
       light: {
         background: "210 50% 98%",
         foreground: "213 56% 16%",
+        active: "240 5.9% 10%",
         card: "0 0% 100%",
         "card-foreground": "240 10% 3.9%",
         popover: "0 0% 100%;",
@@ -33,6 +30,7 @@ export const themes: ITheme[] = [
       dark: {
         background: "240 10% 3.9%",
         foreground: "0 0% 98%",
+        active: "240 5.2% 33.9%",
         card: "240 10% 3.9%",
         "card-foreground": "0 0% 98%",
         popover: "240 10% 3.9%",
@@ -58,14 +56,11 @@ export const themes: ITheme[] = [
   {
     name: "slate",
     label: "Slate",
-    activeColor: {
-      light: "215.4 16.3% 46.9%",
-      dark: "215.3 19.3% 34.5%",
-    },
     cssVars: {
       light: {
         background: "0 0% 100%",
         foreground: "222.2 84% 4.9%",
+        active: "215.4 16.3% 46.9%",
         card: "0 0% 100%",
         "card-foreground": "222.2 84% 4.9%",
         popover: "0 0% 100%",
@@ -82,12 +77,14 @@ export const themes: ITheme[] = [
         "destructive-foreground": "210 40% 98%",
         border: "214.3 31.8% 91.4%",
         input: "214.3 31.8% 91.4%",
+        "input-background": "0 0% 100%",
         ring: "222.2 84% 4.9%",
         radius: "0.5rem",
       },
       dark: {
         background: "222.2 84% 4.9%",
         foreground: "210 40% 98%",
+        active: "215.3 19.3% 34.5%",
         card: "222.2 84% 4.9%",
         "card-foreground": "210 40% 98%",
         popover: "222.2 84% 4.9%",
@@ -104,6 +101,7 @@ export const themes: ITheme[] = [
         "destructive-foreground": "210 40% 98%",
         border: "217.2 32.6% 17.5%",
         input: "217.2 32.6% 17.5%",
+        "input-background": "0 0% 100%",
         ring: "212.7 26.8% 83.9",
         radius: "0.5rem",
       },
@@ -112,14 +110,11 @@ export const themes: ITheme[] = [
   {
     name: "stone",
     label: "Stone",
-    activeColor: {
-      light: "25 5.3% 44.7%",
-      dark: "33.3 5.5% 32.4%",
-    },
     cssVars: {
       light: {
         background: "0 0% 100%",
         foreground: "20 14.3% 4.1%",
+        active: "25 5.3% 44.7%",
         card: "0 0% 100%",
         "card-foreground": "20 14.3% 4.1%",
         popover: "0 0% 100%",
@@ -136,12 +131,14 @@ export const themes: ITheme[] = [
         "destructive-foreground": "60 9.1% 97.8%",
         border: "20 5.9% 90%",
         input: "20 5.9% 90%",
+        "input-background": "0 0% 100%",
         ring: "20 14.3% 4.1%",
         radius: "1.0rem",
       },
       dark: {
         background: "20 14.3% 4.1%",
         foreground: "60 9.1% 97.8%",
+        active: "33.3 5.5% 32.4%",
         card: "20 14.3% 4.1%",
         "card-foreground": "60 9.1% 97.8%",
         popover: "20 14.3% 4.1%",
@@ -158,6 +155,7 @@ export const themes: ITheme[] = [
         "destructive-foreground": "60 9.1% 97.8%",
         border: "12 6.5% 15.1%",
         input: "12 6.5% 15.1%",
+        "input-background": "0 0% 100%",
         ring: "24 5.7% 82.9%",
         radius: "1.0rem",
       },
@@ -166,14 +164,11 @@ export const themes: ITheme[] = [
   {
     name: "gray",
     label: "Gray",
-    activeColor: {
-      light: "220 8.9% 46.1%",
-      dark: "215 13.8% 34.1%",
-    },
     cssVars: {
       light: {
         background: "0 0% 100%",
         foreground: "224 71.4% 4.1%",
+        active: "220 8.9% 46.1%",
         card: "0 0% 100%",
         "card-foreground": "224 71.4% 4.1%",
         popover: "0 0% 100%",
@@ -190,12 +185,14 @@ export const themes: ITheme[] = [
         "destructive-foreground": "210 20% 98%",
         border: "220 13% 91%",
         input: "220 13% 91%",
+        "input-background": "0 0% 100%",
         ring: "224 71.4% 4.1%",
         radius: "0.25rem",
       },
       dark: {
         background: "224 71.4% 4.1%",
         foreground: "210 20% 98%",
+        active: "215 13.8% 34.1%",
         card: "224 71.4% 4.1%",
         "card-foreground": "210 20% 98%",
         popover: "224 71.4% 4.1%",
@@ -212,6 +209,7 @@ export const themes: ITheme[] = [
         "destructive-foreground": "210 20% 98%",
         border: "215 27.9% 16.9%",
         input: "215 27.9% 16.9%",
+        "input-background": "0 0% 100%",
         ring: "216 12.2% 83.9%",
         radius: "0.25rem",
       },
@@ -220,14 +218,11 @@ export const themes: ITheme[] = [
   {
     name: "neutral",
     label: "Neutral",
-    activeColor: {
-      light: "0 0% 45.1%",
-      dark: "0 0% 32.2%",
-    },
     cssVars: {
       light: {
         background: "0 0% 100%",
         foreground: "0 0% 3.9%",
+        active: "0 0% 45.1%",
         card: "0 0% 100%",
         "card-foreground": "0 0% 3.9%",
         popover: "0 0% 100%",
@@ -244,12 +239,14 @@ export const themes: ITheme[] = [
         "destructive-foreground": "0 0% 98%",
         border: "0 0% 89.8%",
         input: "0 0% 89.8%",
+        "input-background": "0 0% 100%",
         ring: "0 0% 3.9%",
         radius: "0.25rem",
       },
       dark: {
         background: "0 0% 3.9%",
         foreground: "0 0% 98%",
+        active: "0 0% 32.2%",
         card: "0 0% 3.9%",
         "card-foreground": "0 0% 98%",
         popover: "0 0% 3.9%",
@@ -266,6 +263,7 @@ export const themes: ITheme[] = [
         "destructive-foreground": "0 0% 98%",
         border: "0 0% 14.9%",
         input: "0 0% 14.9%",
+        "input-background": "0 0% 100%",
         ring: "0 0% 83.1%",
         radius: "0.25rem",
       },
@@ -274,14 +272,11 @@ export const themes: ITheme[] = [
   {
     name: "red",
     label: "Red",
-    activeColor: {
-      light: "0 72.2% 50.6%",
-      dark: "0 72.2% 50.6%",
-    },
     cssVars: {
       light: {
         background: "0 0% 100%",
         foreground: "0 0% 3.9%",
+        active: "0 72.2% 50.6%",
         card: "0 0% 100%",
         "card-foreground": "0 0% 3.9%",
         popover: "0 0% 100%",
@@ -298,12 +293,14 @@ export const themes: ITheme[] = [
         "destructive-foreground": "0 0% 98%",
         border: "0 0% 89.8%",
         input: "0 0% 89.8%",
+        "input-background": "0 0% 100%",
         ring: "0 72.2% 50.6%",
         radius: "0.25rem",
       },
       dark: {
         background: "0 0% 3.9%",
         foreground: "0 0% 98%",
+        active: "0 72.2% 50.6%",
         card: "0 0% 3.9%",
         "card-foreground": "0 0% 98%",
         popover: "0 0% 3.9%",
@@ -320,6 +317,7 @@ export const themes: ITheme[] = [
         "destructive-foreground": "0 0% 98%",
         border: "0 0% 14.9%",
         input: "0 0% 14.9%",
+        "input-background": "0 0% 100%",
         ring: "0 72.2% 50.6%",
         radius: "0.25rem",
       },
@@ -328,14 +326,11 @@ export const themes: ITheme[] = [
   {
     name: "rose",
     label: "Rose",
-    activeColor: {
-      light: "346.8 77.2% 49.8%",
-      dark: "346.8 77.2% 49.8%",
-    },
     cssVars: {
       light: {
         background: "0 0% 100%",
         foreground: "240 10% 3.9%",
+        active: "346.8 77.2% 49.8%",
         card: "0 0% 100%",
         "card-foreground": "240 10% 3.9%",
         popover: "0 0% 100%",
@@ -352,16 +347,18 @@ export const themes: ITheme[] = [
         "destructive-foreground": "0 0% 98%",
         border: "240 5.9% 90%",
         input: "240 5.9% 90%",
+        "input-background": "0 0% 100%",
         ring: "346.8 77.2% 49.8%",
         radius: "0.5rem",
       },
       dark: {
         background: "20 14.3% 4.1%",
         foreground: "0 0% 95%",
-        popover: "0 0% 9%",
-        "popover-foreground": "0 0% 95%",
+        active: "346.8 77.2% 49.8%",
         card: "24 9.8% 10%",
         "card-foreground": "0 0% 95%",
+        popover: "0 0% 9%",
+        "popover-foreground": "0 0% 95%",
         primary: "346.8 77.2% 49.8%",
         "primary-foreground": "355.7 100% 97.3%",
         secondary: "240 3.7% 15.9%",
@@ -374,6 +371,7 @@ export const themes: ITheme[] = [
         "destructive-foreground": "0 85.7% 97.3%",
         border: "240 3.7% 15.9%",
         input: "240 3.7% 15.9%",
+        "input-background": "0 0% 100%",
         ring: "346.8 77.2% 49.8%",
         radius: "0.5rem",
       },
@@ -382,14 +380,11 @@ export const themes: ITheme[] = [
   {
     name: "orange",
     label: "Orange",
-    activeColor: {
-      light: "24.6 95% 53.1%",
-      dark: "20.5 90.2% 48.2%",
-    },
     cssVars: {
       light: {
         background: "0 0% 100%",
         foreground: "20 14.3% 4.1%",
+        active: "24.6 95% 53.1%",
         card: "0 0% 100%",
         "card-foreground": "20 14.3% 4.1%",
         popover: "0 0% 100%",
@@ -406,12 +401,14 @@ export const themes: ITheme[] = [
         "destructive-foreground": "60 9.1% 97.8%",
         border: "20 5.9% 90%",
         input: "20 5.9% 90%",
+        "input-background": "0 0% 100%",
         ring: "24.6 95% 53.1%",
         radius: "1.0rem",
       },
       dark: {
         background: "20 14.3% 4.1%",
         foreground: "60 9.1% 97.8%",
+        active: "20.5 90.2% 48.2%",
         card: "20 14.3% 4.1%",
         "card-foreground": "60 9.1% 97.8%",
         popover: "20 14.3% 4.1%",
@@ -428,6 +425,7 @@ export const themes: ITheme[] = [
         "destructive-foreground": "60 9.1% 97.8%",
         border: "12 6.5% 15.1%",
         input: "12 6.5% 15.1%",
+        "input-background": "0 0% 100%",
         ring: "20.5 90.2% 48.2%",
         radius: "1.0rem",
       },
@@ -436,14 +434,11 @@ export const themes: ITheme[] = [
   {
     name: "green",
     label: "Green",
-    activeColor: {
-      light: "142.1 76.2% 36.3%",
-      dark: "142.1 70.6% 45.3%",
-    },
     cssVars: {
       light: {
         background: "0 0% 100%",
         foreground: "240 10% 3.9%",
+        active: "142.1 76.2% 36.3%",
         card: "0 0% 100%",
         "card-foreground": "240 10% 3.9%",
         popover: "0 0% 100%",
@@ -460,16 +455,18 @@ export const themes: ITheme[] = [
         "destructive-foreground": "0 0% 98%",
         border: "240 5.9% 90%",
         input: "240 5.9% 90%",
+        "input-background": "0 0% 100%",
         ring: "142.1 76.2% 36.3%",
         radius: "0.75rem",
       },
       dark: {
         background: "20 14.3% 4.1%",
         foreground: "0 0% 95%",
-        popover: "0 0% 9%",
-        "popover-foreground": "0 0% 95%",
+        active: "142.1 70.6% 45.3%",
         card: "24 9.8% 10%",
         "card-foreground": "0 0% 95%",
+        popover: "0 0% 9%",
+        "popover-foreground": "0 0% 95%",
         primary: "142.1 70.6% 45.3%",
         "primary-foreground": "144.9 80.4% 10%",
         secondary: "240 3.7% 15.9%",
@@ -482,6 +479,7 @@ export const themes: ITheme[] = [
         "destructive-foreground": "0 85.7% 97.3%",
         border: "240 3.7% 15.9%",
         input: "240 3.7% 15.9%",
+        "input-background": "0 0% 100%",
         ring: "142.4 71.8% 29.2%",
         radius: "0.75rem",
       },
@@ -490,14 +488,11 @@ export const themes: ITheme[] = [
   {
     name: "blue",
     label: "Blue",
-    activeColor: {
-      light: "221.2 83.2% 53.3%",
-      dark: "217.2 91.2% 59.8%",
-    },
     cssVars: {
       light: {
         background: "0 0% 100%",
         foreground: "222.2 84% 4.9%",
+        active: "221.2 83.2% 53.3%",
         card: "0 0% 100%",
         "card-foreground": "222.2 84% 4.9%",
         popover: "0 0% 100%",
@@ -514,12 +509,14 @@ export const themes: ITheme[] = [
         "destructive-foreground": "210 40% 98%",
         border: "214.3 31.8% 91.4%",
         input: "214.3 31.8% 91.4%",
+        "input-background": "0 0% 100%",
         ring: "221.2 83.2% 53.3%",
         radius: "0.75rem",
       },
       dark: {
         background: "222.2 84% 4.9%",
         foreground: "210 40% 98%",
+        active: "217.2 91.2% 59.8%",
         card: "222.2 84% 4.9%",
         "card-foreground": "210 40% 98%",
         popover: "222.2 84% 4.9%",
@@ -536,6 +533,7 @@ export const themes: ITheme[] = [
         "destructive-foreground": "210 40% 98%",
         border: "217.2 32.6% 17.5%",
         input: "217.2 32.6% 17.5%",
+        "input-background": "0 0% 100%",
         ring: "224.3 76.3% 48%",
         radius: "0.75rem",
       },
@@ -544,14 +542,11 @@ export const themes: ITheme[] = [
   {
     name: "yellow",
     label: "Yellow",
-    activeColor: {
-      light: "47.9 95.8% 53.1%",
-      dark: "47.9 95.8% 53.1%",
-    },
     cssVars: {
       light: {
         background: "0 0% 100%",
         foreground: "20 14.3% 4.1%",
+        active: "47.9 95.8% 53.1%",
         card: "0 0% 100%",
         "card-foreground": "20 14.3% 4.1%",
         popover: "0 0% 100%",
@@ -568,12 +563,14 @@ export const themes: ITheme[] = [
         "destructive-foreground": "60 9.1% 97.8%",
         border: "20 5.9% 90%",
         input: "20 5.9% 90%",
+        "input-background": "0 0% 100%",
         ring: "47.9 95.8% 53.1%",
         radius: "0.95rem",
       },
       dark: {
         background: "20 14.3% 4.1%",
         foreground: "60 9.1% 97.8%",
+        active: "47.9 95.8% 53.1%",
         card: "20 14.3% 4.1%",
         "card-foreground": "60 9.1% 97.8%",
         popover: "20 14.3% 4.1%",
@@ -590,6 +587,7 @@ export const themes: ITheme[] = [
         "destructive-foreground": "60 9.1% 97.8%",
         border: "12 6.5% 15.1%",
         input: "12 6.5% 15.1%",
+        "input-background": "0 0% 100%",
         ring: "47.9 95.8% 53.1%",
         radius: "0.95rem",
       },
@@ -598,14 +596,11 @@ export const themes: ITheme[] = [
   {
     name: "violet",
     label: "Violet",
-    activeColor: {
-      light: "262.1 83.3% 57.8%",
-      dark: "263.4 70% 50.4%",
-    },
     cssVars: {
       light: {
         background: "0 0% 100%",
         foreground: "224 71.4% 4.1%",
+        active: "262.1 83.3% 57.8%",
         card: "0 0% 100%",
         "card-foreground": "224 71.4% 4.1%",
         popover: "0 0% 100%",
@@ -622,12 +617,14 @@ export const themes: ITheme[] = [
         "destructive-foreground": "210 20% 98%",
         border: "220 13% 91%",
         input: "220 13% 91%",
+        "input-background": "0 0% 100%",
         ring: "262.1 83.3% 57.8%",
         radius: "0.95rem",
       },
       dark: {
         background: "224 71.4% 4.1%",
         foreground: "210 20% 98%",
+        active: "263.4 70% 50.4%",
         card: "224 71.4% 4.1%",
         "card-foreground": "210 20% 98%",
         popover: "224 71.4% 4.1%",
@@ -644,6 +641,7 @@ export const themes: ITheme[] = [
         "destructive-foreground": "210 20% 98%",
         border: "215 27.9% 16.9%",
         input: "215 27.9% 16.9%",
+        "input-background": "0 0% 100%",
         ring: "263.4 70% 50.4%",
         radius: "0.95rem",
       },
@@ -655,6 +653,7 @@ export const themes: ITheme[] = [
 export interface ICssVars {
   background: string;
   foreground: string;
+  active: string; // 组件激活颜色，例如选中的菜单、Tab、按钮等
   card: string;
   "card-foreground": string;
   popover: string;
@@ -670,7 +669,8 @@ export interface ICssVars {
   destructive: string;
   "destructive-foreground": string;
   border: string;
-  input: string;
+  input: string; // 输入框边框颜色
+  "input-background": string;
   ring: string;
   radius: string;
 }
@@ -683,9 +683,6 @@ export interface IThemeCssVars {
 export interface ITheme {
   name: string;
   label: string;
-  activeColor: {
-    light: string;
-    dark: string;
-  };
+ 
   cssVars: IThemeCssVars;
 }

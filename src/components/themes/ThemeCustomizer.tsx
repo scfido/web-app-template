@@ -87,10 +87,9 @@ const ThemeCustomizer = (
                         )}
                         style={
                           {
-                            "--theme-primary": `hsl(${theme?.activeColor[
+                            "--theme-primary": `hsl(${theme?.cssVars[
                               appearance === "dark" ? "dark" : "light"
-                            ]
-                              })`,
+                            ].primary})`,
                           } as React.CSSProperties
                         }
                       >

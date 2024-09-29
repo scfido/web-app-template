@@ -61,9 +61,10 @@ export interface IThemeProviderProps extends React.HtmlHTMLAttributes<HTMLDivEle
 }
 
 interface IThemeProviderState {
-  themeName: ITheme["name"] | undefined;
+  themeName: ITheme["name"];
   appearance: AppearanceType;
   themeCssVars: IThemeCssVars;
+  getTheme: (themeName: ITheme["name"]) => ITheme;
   setThemeName: (themeName: ITheme["name"]) => void;
   setAppearance: (appearance: AppearanceType) => void;
   setThemeCssVars: (cssVars: IThemeCssVars) => void;
@@ -74,10 +75,20 @@ const initialState: IThemeProviderState = {
   themeName: "zinc",
   appearance: "system",
   themeCssVars: getThemeCssVars("zinc"),
-  setThemeName: () => null,
-  setAppearance: () => null,
-  setThemeCssVars: () => null,
-  resetThemeCssVars: () => null,
+  getTheme: () => { throw new Error("not implemented") },
+  setThemeName: () => { throw new Error("not implemented") },
+  setAppearance: () => { throw new Error("not implemented") },
+  setThemeCssVars: () => { throw new Error("not implemented") },
+  resetThemeCssVars: () => { throw new Error("not implemented") },
+}
+
+export const useTheme = () => {
+  const context = useContext(ThemeProviderContext)
+
+  if (context === undefined)
+    throw new Error("useTheme must be used within a ThemeProvider")
+
+  return context
 }
 
 const ThemeProviderContext = createContext<IThemeProviderState>(initialState)
@@ -98,6 +109,13 @@ const ThemeProvider = ({
     appearance: appearance as AppearanceType,
     themeName: themeName as ITheme["name"],
     themeCssVars: themeCssVars,
+    getTheme: (themeName: ITheme["name"]) => {
+      const theme = themes.find((theme) => theme.name === themeName)
+      if (!theme)
+        throw new Error(`theme not found: ${themeName}`)
+
+      return theme
+    },
     setAppearance: (appearance: AppearanceType) => {
       // 外观写入到cookie
       setAppearance(appearance)
@@ -152,14 +170,5 @@ const ThemeProvider = ({
 ThemeProvider.displayName = "ThemeProvider"
 ThemeProvider.appearanceCookieName = "app_appearance"
 ThemeProvider.themeCookieName = "app_theme"
-
-export const useTheme = () => {
-  const context = useContext(ThemeProviderContext)
-
-  if (context === undefined)
-    throw new Error("useTheme must be used within a ThemeProvider")
-
-  return context
-}
 
 export default ThemeProvider
