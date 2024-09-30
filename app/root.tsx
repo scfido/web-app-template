@@ -12,22 +12,16 @@ import {
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 
 import tailwind from "./tailwind.css?url";
-import NotFoundPage from "@/components/NotFoundPage";
-import ErrorPage from "@/components/ErrorPage";
 import { parseCookies } from "@/lib/cookie";
 import { AppearanceType, ITheme, ThemeProvider } from "@/components/themes";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import type { ColorSchemeType } from "@/components/themes";
+import ErrorBoundaryComponent from "@/components/ErrorBoundary";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwind },
 ];
 
-export function ErrorBoundary() {
-  const error = useRouteError();
-  const isNotFound = isRouteErrorResponse(error) && error.status === 404;
-  return <ErrorPage error={error} />
-}
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const cookieHeader = request.headers.get("Cookie");
@@ -61,6 +55,26 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 //     </html>
 //   );
 // }
+export function ErrorBoundary() {
+  return (
+    <html lang="zh-CN" className="min-h-screen">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+            <ErrorBoundaryComponent />
+        </div>
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
+  )
+}
 
 export default function App() {
   let theme, appearance;
