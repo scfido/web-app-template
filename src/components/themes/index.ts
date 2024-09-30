@@ -1,12 +1,14 @@
 import ThemeProvider from "./ThemeProvider";
-import { Theme } from "./themes";
+import { ITheme } from "./themes";
 
-type AppearanceType = "dark" | "light" | "system"
+type ColorSchemeType = 'light' | 'dark';
+type AppearanceType = ColorSchemeType | "system"
 
 export {
     ThemeProvider
 };
 export type {
     AppearanceType,
-    Theme
+    ColorSchemeType,
+    ITheme
 };

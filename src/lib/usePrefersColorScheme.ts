@@ -1,19 +1,16 @@
 import { useState, useEffect } from 'react';
+import { ColorSchemeType } from '@/components/themes';
 
-export type ColorScheme = 'light' | 'dark';
+export function usePrefersColorScheme(defaultValue?: ColorSchemeType): ColorSchemeType {
 
-export interface IPrefersColorSchemeOptions {
-    ssr?: boolean;
-}
-
-export function usePrefersColorScheme(
-    options: IPrefersColorSchemeOptions = {}
-): ColorScheme {
-    const { ssr = false } = options;
-
-    const [preferredColorScheme, setPreferredColorScheme] = useState<ColorScheme>(
-        ssr ? 'dark' : 'light'
-    );
+    const [preferredColorScheme, setPreferredColorScheme] = useState<ColorSchemeType>(() => {
+        if (typeof window === 'undefined') {
+            return defaultValue ?? "light"
+        }
+        else {
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light"
+        }
+    });
 
     const onChange = (event: MediaQueryListEvent): void => {
         setPreferredColorScheme(event.matches ? 'dark' : 'light');

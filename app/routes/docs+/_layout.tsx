@@ -2,16 +2,17 @@ import { MDXProvider } from '@mdx-js/react';
 import ThemeCustomizer from "@/components/themes/ThemeCustomizer";
 import { Sidebar } from "@/docs"
 import { Home } from "lucide-react";
-import { Link, Outlet, useInRouterContext, useLocation, useMatch, useMatches, useRouteLoaderData } from "@remix-run/react";
+import { isRouteErrorResponse, Link, Outlet, useInRouterContext, useLocation, useMatch, useMatches, useRouteError, useRouteLoaderData } from "@remix-run/react";
 import { AppearanceToggle } from "@/components/themes/AppearanceToggle";
 import mdxStyle from "@/components/themes/customizer/styles/mdx.css?url"
 import { LinksFunction } from "@remix-run/node";
+import NotFoundPage from '@/components/NotFoundPage';
+import ErrorPage from '@/components/ErrorPage';
 
 
 export const links: LinksFunction = () => [
     { rel: "stylesheet", href: mdxStyle },
 ]
-
 
 const Layout = () => {
 

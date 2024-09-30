@@ -1,10 +1,10 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ICssVars, ITheme, IThemeCssVars, themes } from "./themes";
+import { ITheme, IThemeCssVars, themes } from "./themes";
 import { createContext, CSSProperties, useContext, useEffect, useState } from "react";
 import { useCookieState } from "ahooks";
-import type { AppearanceType } from ".";
+import type { AppearanceType, ColorSchemeType } from ".";
 import { usePrefersColorScheme } from "@/lib/usePrefersColorScheme";
 import { Slot } from "@radix-ui/react-slot";
 
@@ -13,28 +13,8 @@ const getThemeCssVars = (themeName: string): IThemeCssVars => {
   return theme.cssVars
 }
 
-const getSystemAppearance = () => {
-  // 判断是服务端还是客户端
-  if (typeof window === "undefined")
-    return "light"
-
-  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
-  return mediaQuery.matches ? "dark" : "light"
-}
-
-const getAppearanceValue = (appearance?: string) => {
-  switch (appearance) {
-    case "system":
-      return getSystemAppearance()
-    case "dark":
-      return "dark"
-    default:
-      return "light"
-  }
-}
-
-const getThemeStyle = (themeCssVars: IThemeCssVars, appearance: AppearanceType): CSSProperties => {
-  const cssVars = themeCssVars[getAppearanceValue(appearance)]
+const getThemeStyle = (themeCssVars: IThemeCssVars, colorScheme: ColorSchemeType): CSSProperties => {
+  const cssVars = themeCssVars[colorScheme]
 
   // 将配置文件中的css变量转换为style属性
   const prefixedCssVars = Object.keys(cssVars).reduce(
@@ -62,7 +42,10 @@ export interface IThemeProviderProps extends React.HtmlHTMLAttributes<HTMLDivEle
 
 interface IThemeProviderState {
   themeName: ITheme["name"];
+  /** 设置的外观 */
   appearance: AppearanceType;
+  /** 当前的外观 */
+  colorScheme: ColorSchemeType;
   themeCssVars: IThemeCssVars;
   getTheme: (themeName: ITheme["name"]) => ITheme;
   setThemeName: (themeName: ITheme["name"]) => void;
@@ -74,6 +57,7 @@ interface IThemeProviderState {
 const initialState: IThemeProviderState = {
   themeName: "zinc",
   appearance: "system",
+  colorScheme: "light",
   themeCssVars: getThemeCssVars("zinc"),
   getTheme: () => { throw new Error("not implemented") },
   setThemeName: () => { throw new Error("not implemented") },
@@ -100,13 +84,19 @@ const ThemeProvider = ({
   defaultAppearance = initialState.appearance,
   asChild,
 }: IThemeProviderProps) => {
-  const prefersColorScheme = usePrefersColorScheme({ ssr: true })
+  const prefersColorScheme = usePrefersColorScheme(defaultAppearance === "system" ? undefined : defaultAppearance)
   const [themeName, setThemeName] = useCookieState(ThemeProvider.themeCookieName, { defaultValue: defaultTheme })
-  const [appearance, setAppearance] = useCookieState(ThemeProvider.appearanceCookieName, { defaultValue: defaultAppearance ?? prefersColorScheme })
+  const [appearance, setAppearance] = useCookieState(ThemeProvider.appearanceCookieName, { defaultValue: defaultAppearance })
+  const [_systemColorScheme, setSystemColorScheme] = useCookieState(ThemeProvider.prefersColorSchemeCookieName, { defaultValue: prefersColorScheme })
+  const [colorScheme, setColorScheme] = useState<ColorSchemeType>(
+    (appearance === "light" || appearance === "dark") ? appearance : prefersColorScheme
+  )
+
   const [themeCssVars, setThemeCssVars] = useState<IThemeCssVars>(getThemeCssVars(themeName as ITheme["name"]))
 
   const value: IThemeProviderState = {
     appearance: appearance as AppearanceType,
+    colorScheme: colorScheme,
     themeName: themeName as ITheme["name"],
     themeCssVars: themeCssVars,
     getTheme: (themeName: ITheme["name"]) => {
@@ -133,21 +123,24 @@ const ThemeProvider = ({
   }
 
   useEffect(() => {
-    setThemeCssVars(getThemeCssVars(themeName as ITheme["name"]))
-  }, [themeName])
+    let colorScheme: ColorSchemeType
+    if (appearance === "system") {
+      colorScheme = prefersColorScheme
+    } else {
+      colorScheme = appearance === "dark" ? "dark" : "light"
+    }
+    setColorScheme(colorScheme)
+    setSystemColorScheme(prefersColorScheme)
 
-  useEffect(() => {
     const root = window.document.documentElement
     root.classList.remove("light", "dark")
-
-    if (appearance === "dark" || appearance === "light") {
-      root.classList.add(appearance)
-    }
-    else if (appearance === "system") {
-      root.classList.add(prefersColorScheme)
-    }
+    root.classList.add(colorScheme)
 
   }, [appearance, prefersColorScheme])
+
+  useEffect(() => {
+    setThemeCssVars(getThemeCssVars(themeName as ITheme["name"]))
+  }, [themeName])
 
   const Comp = asChild ? Slot : 'div';
 
@@ -159,7 +152,7 @@ const ThemeProvider = ({
           `theme-${themeName}`,
           className
         )}
-        style={getThemeStyle(themeCssVars, appearance as AppearanceType)}
+        style={getThemeStyle(themeCssVars, colorScheme)}
       >
         {children}
       </Comp>
@@ -170,5 +163,5 @@ const ThemeProvider = ({
 ThemeProvider.displayName = "ThemeProvider"
 ThemeProvider.appearanceCookieName = "app_appearance"
 ThemeProvider.themeCookieName = "app_theme"
-
+ThemeProvider.prefersColorSchemeCookieName = "app_prefers_color_scheme"
 export default ThemeProvider
