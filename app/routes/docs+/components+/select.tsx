@@ -44,7 +44,7 @@ const Component = () => {
 
     return (
         <article className="" >
-            <h1 className="p-4 dark:text-white">Select</h1>
+            <h1 className="mb-4">Select</h1>
             <ComponentPreview title="常规" description="分组显示和分隔符">
                 <div className="flex flex-col gap-4">
                     <Select className="w-[180px]" options={options} />

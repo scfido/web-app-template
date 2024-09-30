@@ -9,7 +9,7 @@ const Component = () => {
 
     return (
         <article className="" >
-            <h1 className="p-4 dark:text-white">Test</h1>
+            <h1 className="mb-4">Test</h1>
            
             <ComponentPreview title="常规">
                 <div className="flex flex-col gap-4">

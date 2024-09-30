@@ -44,7 +44,7 @@ const SegmentedFormItem = ({
           <FormControl>
 
             <RadioGroup
-              className="inline-flex h-12 items-stretch justify-around w-full rounded-md bg-input-background p-1"
+              className="inline-flex h-12 items-stretch justify-around w-full border border-input rounded-md bg-input-background p-1"
               onValueChange={field.onChange}
               defaultValue={field.value}
             >
@@ -60,8 +60,7 @@ const SegmentedFormItem = ({
                   <FormLabel
                     className={cn(
                       "flex h-10 w-full cursor-pointer items-center justify-center text-foreground rounded-sm px-3 text-sm font-normal peer-data-[state=checked]:font-medium",
-                      "peer-data-[state=checked]:bg-accent/50 peer-data-[state=checked]:border-accent peer-data-[state=checked]:border peer-data-[state=checked]:text-accent-foreground",
-                      "hover:bg-accent-hover",
+                      "peer-data-[state=checked]:bg-accent-background peer-data-[state=checked]:border-accent peer-data-[state=checked]:border peer-data-[state=checked]:text-accent-foreground",
                       { "hover:bg-accent-hover": !option.disabled },
                       { "cursor-not-allowed text-muted-foreground": option.disabled }
                     )}

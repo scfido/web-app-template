@@ -191,7 +191,6 @@ const BASE_THEME_WITH_VARIABLES = `
       light: {
         background: "<%- cssVars.light["background"] %>",
         foreground: "<%- cssVars.light["foreground"] %>",
-        active: "<%- cssVars.light["active"] %>",
         card: "<%- cssVars.light["card"] %>",
         "card-foreground": "<%- cssVars.light["card-foreground"] %>",
         popover: "<%- cssVars.light["popover"] %>",
@@ -215,7 +214,6 @@ const BASE_THEME_WITH_VARIABLES = `
       dark: {
         background: "<%- cssVars.dark["background"] %>",
         foreground: "<%- cssVars.dark["foreground"] %>",
-        active: "<%- cssVars.dark["active"] %>",
         card: "<%- cssVars.dark["card"] %>",
         "card-foreground": "<%- cssVars.dark["card-foreground"] %>",
         popover: "<%- cssVars.dark["popover"] %>",

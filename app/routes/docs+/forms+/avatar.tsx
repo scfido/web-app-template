@@ -62,8 +62,8 @@ export function AvatarForm() {
 const Component = () => {
 
     return (
-        <article className="" >
-            <h1>头像</h1>
+        <article >
+            <h1 className="mb-4">头像</h1>
             <ComponentPreview title="用户头像、图标等场景">
                 <AvatarForm />
             </ComponentPreview>

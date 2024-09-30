@@ -178,8 +178,8 @@ const NormalForm = () => {
 
 const Component = () => {
     return (
-        <article className="" >
-            <h1>表单</h1>
+        <article >
+            <h1 className="mb-4">表单</h1>
             <ComponentPreview title="示例">
                 <NormalForm />
             </ComponentPreview>

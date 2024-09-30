@@ -103,8 +103,8 @@ export function DynamicValidationForm() {
 const Component = () => {
 
     return (
-        <article className="" >
-            <h1>动态验证</h1>
+        <article >
+            <h1 className="mb-4">动态验证</h1>
             <ComponentPreview title="值的范围受最大值和最小值动态限制">
                 <DynamicValidationForm />
             </ComponentPreview>

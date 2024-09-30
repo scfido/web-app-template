@@ -1,6 +1,7 @@
 export const themes: ITheme[] = [
+ 
   {
-    name: "zinc",
+    name: "zinc",      
     label: "Zinc",
     cssVars: {
       light: {
@@ -16,13 +17,13 @@ export const themes: ITheme[] = [
         "secondary-foreground": "240 5.9% 10%",
         muted: "240 4.8% 95.9%",
         "muted-foreground": "240 3.8% 46.1%",
-        accent: "240 4.8% 95.9%",
+        accent: "240.0 2.4% 24.9%",
         "accent-foreground": "240 5.9% 10%",
         destructive: "0 84.2% 60.2%",
         "destructive-foreground": "0 0% 98%",
         border: "240 5.9% 90%",
         input: "240 5.9% 90%",
-        "input-background": "240 5.9% 90%",
+        "input-background": "240.0 12.5% 96.9%",
         ring: "240 5.9% 10%",
         radius: "0.5rem",
       },
@@ -39,13 +40,13 @@ export const themes: ITheme[] = [
         "secondary-foreground": "0 0% 98%",
         muted: "240 3.7% 15.9%",
         "muted-foreground": "240 5% 64.9%",
-        accent: "240 3.7% 15.9%",
+        accent: "240.0 6.6% 76.1%",
         "accent-foreground": "0 0% 98%",
         destructive: "0 62.8% 30.6%",
         "destructive-foreground": "0 0% 98%",
         border: "240 3.7% 15.9%",
         input: "240 3.7% 15.9%",
-        "input-background": "240 5.9% 90%",
+        "input-background": "240.0 15.0% 7.8%",
         ring: "240 4.9% 83.9%",
         radius: "0.5rem",
       },
