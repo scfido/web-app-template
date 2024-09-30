@@ -70,7 +70,7 @@ export function renderComboboxOption(options: ComboboxOptionType[], selectedValu
         if (isComboboxOption(option)) {
             return (
                 <CommandItem
-                    className={cn(option.disabled && "text-muted-foreground")}
+                    className={cn(option.disabled && "text-muted-foreground", "data-[selected='true']:bg-accent-background")}
                     key={option.key ?? option.value}
                     value={option.value}
                     keywords={[option.label ?? option.value]}
@@ -95,6 +95,7 @@ export function renderComboboxOption(options: ComboboxOptionType[], selectedValu
                     {option.options?.map((option) => {
                         return (
                             <CommandItem
+                                className={cn(option.disabled && "text-muted-foreground", "data-[selected='true']:bg-accent-background")}
                                 key={option.key ?? option.value}
                                 value={option.value}
                                 keywords={[option.label ?? option.value]}

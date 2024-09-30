@@ -69,7 +69,7 @@ export function renderSelectOption(options: SelectOptionType[]) {
         if (isSelectOption(option)) {
             return (
                 <SelectItem
-                    className={cn(option.disabled && "text-gray-500")}
+                    className={cn(option.disabled && "text-muted-foreground", "focus:bg-accent-background")}
                     key={option.key ?? option.value}
                     value={option.value}
                     disabled={option.disabled}
@@ -81,11 +81,11 @@ export function renderSelectOption(options: SelectOptionType[]) {
         else if (isSelectOptionGroup(option)) {
             return (
                 <SelectGroup key={option.key}>
-                    <SelectLabel className="text-sm font-medium text-gray-500 pl-4">{option.label}</SelectLabel>
+                    <SelectLabel className="text-sm font-medium text-muted-foreground pl-4">{option.label}</SelectLabel>
                     {option.options?.map((option) => {
                         return (
                             <SelectItem
-                                className={cn(option.disabled && "text-gray-500")}
+                                className={cn(option.disabled && "text-muted-foreground", "hover:bg-accent-hover focus:bg-accent-background")}
                                 key={option.key ?? option.value}
                                 value={option.value}
                                 disabled={option.disabled}

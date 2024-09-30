@@ -42,7 +42,7 @@ const SelectFormItem = ({
                     </FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                            <SelectTrigger>
+                            <SelectTrigger className="bg-input-background hover:bg-accent-hover">
                                 <SelectValue placeholder={placeholder} />
                             </SelectTrigger>
                         </FormControl>

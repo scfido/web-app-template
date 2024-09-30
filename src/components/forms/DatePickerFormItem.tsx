@@ -46,7 +46,7 @@ const DatePickerFormItem = ({
                                 <Button
                                     variant={"outline"}
                                     className={cn(
-                                        "w-[240px] pl-3 text-left font-normal bg-input-background",
+                                        "w-[240px] pl-3 text-left font-normal bg-input-background hover:bg-accent-hover",
                                         !field.value && "text-muted-foreground"
                                     )}
                                 >

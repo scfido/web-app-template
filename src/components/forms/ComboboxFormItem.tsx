@@ -58,7 +58,7 @@ const ComboboxFormItem = ({
                                     variant="outline"
                                     role="combobox"
                                     className={cn(
-                                        "w-[200px] justify-between",
+                                        "w-[200px] font-normal justify-between bg-input-background hover:bg-accent-hover",
                                         !field.value && "text-muted-foreground"
                                     )}
                                     aria-expanded={open}
