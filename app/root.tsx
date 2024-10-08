@@ -16,7 +16,7 @@ import { parseCookies } from "@/lib/cookie";
 import { AppearanceType, ITheme, ThemeProvider } from "@/components/themes";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import type { ColorSchemeType } from "@/components/themes";
-import ErrorBoundaryComponent from "@/components/ErrorBoundary";
+import ErrorPage from "@/components/ErrorPage";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: tailwind },
@@ -57,22 +57,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 // }
 export function ErrorBoundary() {
   return (
-    <html lang="zh-CN" className="min-h-screen">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <ErrorBoundaryComponent />
-        </div>
-        <ScrollRestoration />
-        <Scripts />
-      </body>
-    </html>
+    <ErrorPage />
   )
 }
 
