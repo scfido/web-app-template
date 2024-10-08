@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/card"
 import { z } from "@/lib/zod-cn";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ActionFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, Link, redirect, useNavigate } from "@remix-run/react";
 import { useRemixForm, getValidatedFormData } from "remix-hook-form";
+import { authenticator } from "~/services/auth.server";
 
 // 表单架构
 const formSchema = z.object({
@@ -22,6 +23,14 @@ const formSchema = z.object({
   remember: z.boolean().optional(),
 })
 type FormSchemaType = z.infer<typeof formSchema>
+
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  // If the user is already authenticated redirect to /dashboard directly
+  return await authenticator.isAuthenticated(request, {
+    successRedirect: "/",
+  });
+};
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const {
@@ -35,6 +44,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return json({ errors, defaultValues });
   }
 
+
   // 模拟登录
   await new Promise(resolve => setTimeout(resolve, 1000))
 
@@ -46,8 +56,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       defaultValues: data,
     });
   }
-  // Do something with the data
-  return redirect("/");
+
+  // we call the method with the name of the strategy we want to use and the
+  // request object, optionally we pass an object with the URLs we want the user
+  // to be redirected to after a success or a failure
+  return await authenticator.authenticate("user-pass", request, {
+    successRedirect: "/",
+    failureRedirect: "/sign-in",
+  });
 }
 
 const Signin = () => {
