@@ -1,6 +1,5 @@
 import { CheckBoxFormItem, InputFormItem, BeringForm } from "@/components/forms"
-import { SubmitButton } from "@/components/forms/SubmitButton";
-import { Button } from "@/components/ui/button"
+import { SubmitButton } from "@/components/forms";
 import {
   Card,
   CardContent,
@@ -12,64 +11,72 @@ import {
 import { z } from "@/lib/zod-cn";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, Link, redirect, useNavigate } from "@remix-run/react";
-import { useRemixForm, getValidatedFormData } from "remix-hook-form";
-import { authenticator } from "~/services/auth.server";
+import { json, Link, redirect } from "@remix-run/react";
+import { AuthorizationError } from "remix-auth";
+import { useRemixForm } from "remix-hook-form";
+import { authenticator, IUser } from "~/services/auth.server";
+import { commitSession, getSession } from "~/services/session.server";
 
-// 表单架构
-const formSchema = z.object({
+// 登录表单架构
+export const siginFormSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8).max(32),
   remember: z.boolean().optional(),
 })
-type FormSchemaType = z.infer<typeof formSchema>
+export type SiginFormSchemaType = z.infer<typeof siginFormSchema>
 
 
-export async function loader({ request }: LoaderFunctionArgs) {
-  // If the user is already authenticated redirect to /dashboard directly
+export async function loader({ request, params }: LoaderFunctionArgs) {
+  // 如果用户已经登录，则重定向到 /或者 returnUrl 参数指定的路径
+  // 从 url 中获取 returnUrl 参数 
+  const url = new URL(request.url);
+  const returnUrl = url.searchParams.get("returnUrl") ?? "/";
+
   return await authenticator.isAuthenticated(request, {
-    successRedirect: "/",
+    successRedirect: returnUrl,
   });
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const {
-    errors,
-    data,
-    receivedValues: defaultValues
-  } = await getValidatedFormData<FormSchemaType>(request, zodResolver(formSchema));
-
-  if (errors) {
-    // The keys "errors" and "defaultValues" are picked up automatically by useRemixForm
-    return json({ errors, defaultValues });
-  }
-
-
-  // 模拟登录
-  await new Promise(resolve => setTimeout(resolve, 1000))
-
-  if (data.password !== "11111111") {
-    return json({
-      errors: {
-        password: { message: "邮箱或密码错误" },
-      },
-      defaultValues: data,
+  const url = new URL(request.url);
+  const returnUrl = url.searchParams.get("returnUrl") ?? "/";
+  let user: IUser | null = null;
+  try {
+    user = await authenticator.authenticate("user-pass", request, {
+      throwOnError: true,
     });
+  } catch (error) {
+    if (error instanceof AuthorizationError) {
+      // here the error is related to the authentication process
+      return json(error.cause, {
+        status: 400,
+      });
+    }
+    return json(error, { status: 400 });
   }
 
-  // we call the method with the name of the strategy we want to use and the
-  // request object, optionally we pass an object with the URLs we want the user
-  // to be redirected to after a success or a failure
-  return await authenticator.authenticate("user-pass", request, {
-    successRedirect: "/",
-    failureRedirect: "/sign-in",
-  });
+  // manually get the session
+  const session = await getSession(request.headers.get("cookie"));
+  // and store the user data
+  session.set(authenticator.sessionKey, user);
+
+  // 记住登录信息，则设置 cookie 过期时间为 7 天，否则为 2 小时
+  const maxAge = user.remember ? 60 * 60 * 24 * 7 : 60 * 60 * 2;
+
+  const cookie = await commitSession(session, { maxAge });
+  console.log(cookie);
+
+  // commit the session
+  let headers = new Headers({ "Set-Cookie": cookie });
+  return redirect(returnUrl, { headers });
+
+
 }
 
 const Signin = () => {
-  const form = useRemixForm<FormSchemaType>({
+  const form = useRemixForm<SiginFormSchemaType>({
     mode: "onSubmit",
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(siginFormSchema),
     defaultValues: {
       password: "",
       email: "",
@@ -85,7 +92,7 @@ const Signin = () => {
         </Link>
       </div>
       <Card className="w-full max-w-sm sm:max-w-md md:max-w-lg mt-2">
-        <BeringForm {...form} method="post" formSchema={formSchema} className="space-y-8">
+        <BeringForm {...form} method="post" formSchema={siginFormSchema} className="space-y-8">
           <CardHeader className="bg-primary/30 p-2 sm:h-20 sm:p-6">
             <CardTitle className="text-center">登录</CardTitle>
             <CardDescription className="text-center">

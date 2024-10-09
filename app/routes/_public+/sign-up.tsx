@@ -1,6 +1,5 @@
 import { CheckBoxFormItem, InputFormItem, BeringForm } from "@/components/forms"
-import { SubmitButton } from "@/components/forms/SubmitButton";
-import { Button } from "@/components/ui/button"
+import { SubmitButton } from "@/components/forms";
 import {
   Card,
   CardContent,
