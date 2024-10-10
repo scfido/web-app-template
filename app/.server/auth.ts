@@ -1,43 +1,50 @@
 import { Authenticator } from "remix-auth";
-import { sessionStorage } from "~/services/session.server";
+import { sessionStorage } from "~/.server/session";
 import { FormStrategy } from "remix-auth-form";
 import { siginFormSchema, SiginFormSchemaType } from "~/routes/_public+/sign-in";
 import { getValidatedFormData } from "remix-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ValidationError } from "@/lib/zod-cn";
+import fetchApi from "~/.server/fetchApi";
 
-export interface IUser {
-    accessToken: string;
-    name: string;
+export interface IUserAccessToken {
+    access_Token: string;
+    expires_in: number;
+    refresh_Token: string | null;
+    token_type: string;
+    scope: string | null;
+}
 
-    /**
-     * 是否记住登录信息，服务端会根据此值设置 cookie 的过期时间。
-     * 
-     * 这个值无需保存到Cookie中。
-     */
-    remember?: boolean;
+interface IUserAccessTokenInput {
+    username: string;
+    password: string;
+    rememberMe?: boolean;
 }
 
 // Create an instance of the authenticator, pass a generic with what
 // strategies will return and will store in the session
-export const authenticator = new Authenticator<IUser>(sessionStorage);
+export const authenticator = new Authenticator<IUserAccessToken>(sessionStorage);
 
-const login = async (email: string, password: string, receivedValues: Record<any, any>): Promise<IUser> => {
+const login = async (username: string, password: string, rememberMe: boolean, receivedValues: Record<any, any>): Promise<IUserAccessToken> => {
     // 模拟登录延迟
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    // await new Promise(resolve => setTimeout(resolve, 1000))
 
-    if (password !== "11111111") {
+    try {
+        const res = await fetchApi.post<IUserAccessToken, IUserAccessTokenInput>("/api/auth/usertoken", {
+            username,
+            password,
+            rememberMe
+        },
+        { anonymous: true })
+
+        return res;
+    } catch (error) {
         throw new ValidationError(
             {
                 password: { message: "邮箱或密码错误", type: "required" },
             },
             receivedValues,
         );
-    }
-
-    return {
-        accessToken: "1",
-        name: email,
     }
 }
 
@@ -56,8 +63,7 @@ authenticator.use(
             throw new ValidationError(errors, receivedValues);
         }
 
-        let user = await login(data.email, data.password, receivedValues);
-        user.remember = data.remember;
+        let user = await login(data.username, data.password, data.rememberMe ?? false, receivedValues);
 
         // 此用户的类型必须与传递给 Authenticator 的类型匹配
         // 如果直接在 `use` 方法中实例化，策略将自动继承该类型

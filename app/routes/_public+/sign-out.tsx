@@ -1,5 +1,5 @@
 import { ActionFunctionArgs } from "@remix-run/node";
-import { authenticator } from "~/services/auth.server";
+import { authenticator } from "~/.server/auth";
 
 export async function action({ request }: ActionFunctionArgs) {
     await authenticator.logout(request, { redirectTo: "/sign-in" });

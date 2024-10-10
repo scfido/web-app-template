@@ -2,7 +2,8 @@ import { Button } from "@/components/ui/button";
 import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { Form, Link, useLoaderData } from "@remix-run/react";
 import { FileText, LogIn, LogOut, User } from "lucide-react";
-import { authenticator } from "~/services/auth.server";
+import { authenticator } from "~/.server/auth";
+import fetchApi from "~/.server/fetchApi";
 
 export const meta: MetaFunction = () => {
   return [
@@ -12,10 +13,11 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const user = await authenticator.isAuthenticated(request, {
+  await authenticator.isAuthenticated(request, {
     failureRedirect: "/sign-in",
   });
 
+  const user = await fetchApi.get("/api/account/currentuser")
   return { user };
 }
 
@@ -44,7 +46,7 @@ export default function Index() {
         </header>
         <nav className="flex flex-col items-center justify-center gap-4 rounded-3xl border border-gray-200 p-6 dark:border-gray-700">
           <div className=" flex items-center gap-2 leading-6 text-gray-700 dark:text-gray-200">
-            <User /> <span>{user.email}</span>
+            <User /> <span>{user.name}</span>
           </div>
           <ul>
             {resources.map(({ href, text, icon }) => (

@@ -14,14 +14,14 @@ import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { json, Link, redirect } from "@remix-run/react";
 import { AuthorizationError } from "remix-auth";
 import { useRemixForm } from "remix-hook-form";
-import { authenticator, IUser } from "~/services/auth.server";
-import { commitSession, getSession } from "~/services/session.server";
+import { authenticator, IUserAccessToken } from "~/.server/auth";
+import { commitSession, getSession } from "~/.server/session";
 
 // 登录表单架构
 export const siginFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8).max(32),
-  remember: z.boolean().optional(),
+  username: z.union([z.string().email(), z.string().max(32)]),
+  password: z.string().min(4).max(32),
+  rememberMe: z.boolean().optional(),
 })
 export type SiginFormSchemaType = z.infer<typeof siginFormSchema>
 
@@ -40,7 +40,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 export const action = async ({ request }: ActionFunctionArgs) => {
   const url = new URL(request.url);
   const returnUrl = url.searchParams.get("returnUrl") ?? "/";
-  let user: IUser | null = null;
+  let user: IUserAccessToken | null = null;
   try {
     user = await authenticator.authenticate("user-pass", request, {
       throwOnError: true,
@@ -48,29 +48,18 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   } catch (error) {
     if (error instanceof AuthorizationError) {
       // here the error is related to the authentication process
-      return json(error.cause, {
-        status: 400,
-      });
+      return json(error.cause, { status: 400 });
     }
     return json(error, { status: 400 });
   }
 
   // manually get the session
-  const session = await getSession(request.headers.get("cookie"));
+  const session = await getSession(request.headers.get("Cookie"));
   // and store the user data
   session.set(authenticator.sessionKey, user);
 
-  // 记住登录信息，则设置 cookie 过期时间为 7 天，否则为 2 小时
-  const maxAge = user.remember ? 60 * 60 * 24 * 7 : 60 * 60 * 2;
-
-  const cookie = await commitSession(session, { maxAge });
-  console.log(cookie);
-
-  // commit the session
-  let headers = new Headers({ "Set-Cookie": cookie });
+  let headers = new Headers({ "Set-Cookie": await commitSession(session, { maxAge: user.expires_in }) });
   return redirect(returnUrl, { headers });
-
-
 }
 
 const Signin = () => {
@@ -79,8 +68,8 @@ const Signin = () => {
     resolver: zodResolver(siginFormSchema),
     defaultValues: {
       password: "",
-      email: "",
-      remember: false,
+      username: "",
+      rememberMe: false,
     },
   })
 
@@ -100,9 +89,9 @@ const Signin = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-col gap-4 sm:px-16" >
-            <InputFormItem name="email" label="邮箱" />
+            <InputFormItem name="username" label="邮箱/用户名" />
             <InputFormItem type="password" name="password" label="密码" />
-            <CheckBoxFormItem name="remember" label="记住我" />
+            <CheckBoxFormItem name="rememberMe" label="记住我" />
           </CardContent>
           <CardFooter>
             <SubmitButton className="w-full" submittingContent="登录中...">登录</SubmitButton>
