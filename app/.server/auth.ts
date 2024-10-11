@@ -1,5 +1,5 @@
 import { Authenticator } from "remix-auth";
-import { sessionStorage } from "~/.server/session";
+import { getSession, sessionStorage } from "~/.server/session";
 import { FormStrategy } from "remix-auth-form";
 import { siginFormSchema, SiginFormSchemaType } from "~/routes/_public+/sign-in";
 import { getValidatedFormData } from "remix-hook-form";
@@ -25,7 +25,7 @@ interface IUserAccessTokenInput {
 // strategies will return and will store in the session
 export const authenticator = new Authenticator<IUserAccessToken>(sessionStorage);
 
-const login = async (username: string, password: string, rememberMe: boolean, receivedValues: Record<any, any>): Promise<IUserAccessToken> => {
+const login = async (username: string, password: string, rememberMe: boolean, receivedValues: Record<any, any>, session?: Session<SessionData, SessionData>): Promise<IUserAccessToken> => {
     // 模拟登录延迟
     // await new Promise(resolve => setTimeout(resolve, 1000))
 
@@ -35,7 +35,8 @@ const login = async (username: string, password: string, rememberMe: boolean, re
             password,
             rememberMe
         },
-        { anonymous: true })
+            { anonymous: true, session }
+        )
 
         return res;
     } catch (error) {
@@ -63,7 +64,8 @@ authenticator.use(
             throw new ValidationError(errors, receivedValues);
         }
 
-        let user = await login(data.username, data.password, data.rememberMe ?? false, receivedValues);
+        const session = await getSession(request.headers.get("Cookie"));
+        let user = await login(data.username, data.password, data.rememberMe ?? false, receivedValues, session);
 
         // 此用户的类型必须与传递给 Authenticator 的类型匹配
         // 如果直接在 `use` 方法中实例化，策略将自动继承该类型

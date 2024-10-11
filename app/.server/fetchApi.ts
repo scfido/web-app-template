@@ -1,3 +1,4 @@
+import { Session, SessionData } from "@remix-run/node";
 import { authenticator } from "./auth";
 import { getSession } from "./session";
 
@@ -9,6 +10,8 @@ export interface IFetchApiOptions<T = any> extends RequestInit {
     anonymous?: boolean;
 
     headers?: HeadersInit;
+
+    session: Session<SessionData, SessionData>;
 }
 
 export interface IFetchApi {
@@ -100,11 +103,13 @@ const getAbpError = async (response: Response) => {
     return undefined;
 }
 
-const appendAuthorizationHeader = async (request: RequestInit): Promise<void> => {
-    const session = await getSession();
-    const token = session.get(authenticator.sessionKey);
+const appendAuthorizationHeader = async (request: RequestInit, session?: Session<SessionData, SessionData>): Promise<void> => {
+    const token = session?.get(authenticator.sessionKey);
     if (token) {
-        request.headers = { ...request.headers, "Authorization": `Bearer ${token}` };
+        request.headers = {
+            ...request.headers,
+            Authorization: `Bearer ${token.access_token}`
+        };
     }
 }
 
@@ -122,7 +127,7 @@ async function fetchCore(path: string, method: string, data?: unknown, options?:
     };
 
     if (options?.anonymous !== true) {
-        appendAuthorizationHeader(request);
+        await appendAuthorizationHeader(request, options?.session);
     }
 
     try {

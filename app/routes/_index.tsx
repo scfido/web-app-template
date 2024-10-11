@@ -4,6 +4,7 @@ import { Form, Link, useLoaderData } from "@remix-run/react";
 import { FileText, LogIn, LogOut, User } from "lucide-react";
 import { authenticator } from "~/.server/auth";
 import fetchApi from "~/.server/fetchApi";
+import { getSession } from "~/.server/session";
 
 export const meta: MetaFunction = () => {
   return [
@@ -17,7 +18,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
     failureRedirect: "/sign-in",
   });
 
-  const user = await fetchApi.get("/api/account/currentuser")
+  const session = await getSession(request.headers.get("Cookie"));
+  const user = await fetchApi.get("/account/currentuser", { session })
   return { user };
 }
 
